@@ -1,0 +1,59 @@
+@model List<Cadete>
+
+@{
+    ViewData["Title"] = "Index";
+    //Console.WriteLine("Id     |Nombre      |Calle              |Numero       |Telefono");
+}
+
+<h1>LISTADO DE CADETES</h1>
+
+<p>
+    <a asp-action="Create">Alta Cadete</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <p>Id</p>
+            </th>
+            <th>
+                <p>Nombre</p>
+            </th>
+            <th>
+                <p>Calle</p>
+            </th>
+            <th>
+                <p>Numero</p>
+            </th>
+            <th>
+                <p>Telefono</p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <p>@item.getId()</p>
+            </td>
+            <td>
+                <p>@item.getNom()</p>
+            </td>
+            <td>
+                <p>@item.getCalle()</p>
+            </td>
+            <td>
+                <p>@item.getNumero()</p>
+            </td>
+            <td>
+                <p>@item.getTelefono()</p>
+            </td>
+            <td>
+                <!--<a asp-action="Edit" asp-route-id="@item.getId()">Editar</a>--> |
+                <a asp-action="Details" asp-route-id="@item.getId()">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.getId()">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

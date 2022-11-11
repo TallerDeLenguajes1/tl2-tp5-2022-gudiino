@@ -1,0 +1,45 @@
+@model Cadete
+
+@{
+    ViewData["Title"] = "Eliminar";
+}
+
+<h1>Eliminar Cadete</h1>
+
+<h3>¿Esta seguro de eliminar el cadete?</h3>
+<div>
+    <h4>Cadete</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            <p>NOMBRE</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.getNom()</p>
+        </dd>
+        <dt class = "col-sm-2">
+            <p>CALLE</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.getCalle()</p>
+        </dd>
+        <dt class = "col-sm-2">
+            <p>NUMERO</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.getNumero()</p>
+        </dd>
+        <dt class = "col-sm-2">
+            <p>TELEFONO</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.getTelefono()</p>
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" for="id" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index">Volver</a>
+    </form>
+</div>

@@ -1,0 +1,48 @@
+@model Cadete
+
+@{
+    ViewData["Title"] = "Detalles";
+}
+
+<h1>Detalles</h1>
+
+<div>
+    <h4>Cadete</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            <p>Id</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.getId()</p>
+        </dd>
+        <dt class = "col-sm-2">
+            <p>Nombre</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.getNom()</p>
+        </dd>
+        <dt class = "col-sm-2">
+            <p>Calle</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.getCalle()</p>
+        </dd>
+        <dt class = "col-sm-2">
+            <p>Numero</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.getNumero()</p>
+        </dd>
+        <dt class = "col-sm-2">
+            <p>Telefono</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.getTelefono()</p>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.getId()">Editar</a> |
+    <a asp-action="Index">Volver</a>
+</div>
