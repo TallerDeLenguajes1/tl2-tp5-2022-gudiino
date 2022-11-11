@@ -1,39 +1,40 @@
-@model MvcCadeteria.ViewModels.AltaCdtViewModel
+@model MvcCadeteria.ViewModels.EditarCdtViewModel
 
 @{
-    ViewData["Title"] = "Crear";
+    ViewData["Title"] = "Editar";
 }
 
-<h1>Crear</h1>
+<h1>Editar</h1>
 
-<h4>Nuevo Cadete</h4>
+<h4>Cadete</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Editar">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.id" />
             <div class="form-group">
-                <label asp-for="@Model.NombreCadete" class="control-label"></label>
-                <input asp-for="@Model.NombreCadete" class="form-control" />
+                <label asp-for="@Model.NombreCadete" class="control-label" ></label>
+                <input asp-for="@Model.NombreCadete" class="form-control" value="@Model.NombreCadete"/>
                 <span asp-validation-for="@Model.NombreCadete" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Direccion" class="control-label"></label>
-                <input asp-for="@Model.Direccion" class="form-control" />
+                <input asp-for="@Model.Direccion" class="form-control" value="@Model.Direccion"/>
                 <span asp-validation-for="@Model.Direccion" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Numero" class="control-label"></label>
-                <input asp-for="@Model.Numero" class="form-control" />
+                <input asp-for="@Model.Numero" class="form-control" value="@Model.Numero"/>
                 <span asp-validation-for="@Model.Numero" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Telefono" class="control-label"></label>
-                <input asp-for="@Model.Telefono" class="form-control" />
+                <input asp-for="@Model.Telefono" class="form-control" value="@Model.Telefono"/>
                 <span asp-validation-for="@Model.Telefono" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" />
+                <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -46,4 +47,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

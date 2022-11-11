@@ -2,16 +2,18 @@ using MvcCadeteria.Models;
 namespace MvcCadeteria.ViewModels;
 public class MapperCdtViewModel
 {
-    public List<TurnoDiaViewModel> GetTurnoViewModel(List<Turno> turnos)
+    public List<CdtViewModel> GetCadeteViewModel(List<Cadete> cdts)
     {
-        List<TurnoDiaViewModel> viewModels = new List<TurnoDiaViewModel>();
-        foreach (var turno in turnos)
+        List<CdtViewModel> viewModels = new List<CdtViewModel>();
+        foreach (var cdt in cdts)
         {
-            var turnoViewModel = new TurnoDiaViewModel();
-            turnoViewModel.FechaYHora = turno.FechaYHora.ToShortDateString();
-            turnoViewModel.NombreCliente = turno.Cliente.ObtenerNombre();
-            turnoViewModel.NumeroDeTurno = turno.Numero;
-            viewModels.Add(turnoViewModel);
+            var cdtViewModel = new CdtViewModel();
+            cdtViewModel.id = cdt.getId().ToString();
+            cdtViewModel.nombre = cdt.getNom();
+            cdtViewModel.calle = cdt.getCalle();
+            cdtViewModel.numero = cdt.getNumero().ToString();
+            cdtViewModel.telefono = cdt.getTelefono();
+            viewModels.Add(cdtViewModel);
         }
         return viewModels;
     }

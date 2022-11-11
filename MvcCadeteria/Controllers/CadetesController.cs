@@ -21,7 +21,7 @@ public class CadetesController : Controller
                         Problem("La lista de cadete es null.");
     }
     
-    // GET: Cadetes/Details/5
+    // *********************************************************GET: Cadetes/Detalles
     public IActionResult Details(int? id)
     {
         if (id == null || inicioDatos.getCadetes() == null)
@@ -51,11 +51,9 @@ public class CadetesController : Controller
         return View(new AltaCdtViewModel());
     }
 
-    // POST: Cadetes/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    // POST: Cadetes/Crear
     [HttpPost]
-    //public IActionResult Create(string nombr, string call, int numer, string telefon)
+    
     public IActionResult Create(AltaCdtViewModel nuevoCadete)
     {//Cadete(int iden, string nom, string dir,int num, string tel)
         int ultimoId=0;
@@ -83,58 +81,83 @@ public class CadetesController : Controller
         return View();
     }
 
-    // // GET: Cadetes/Edit/5
-    // public async Task<IActionResult> Edit(int? id)
-    // {
-    //     if (id == null || _context.Cadete == null)
-    //     {
-    //         return NotFound();
-    //     }
+    // GET: Cadetes/Editar **********************************************************************
+    public IActionResult Editar(int? id)
+    {
+        if (id == null || inicioDatos.getCadetes() == null)
+        {
+            return NotFound();
+        }
 
-    //     var cadete = await _context.Cadete.FindAsync(id);
-    //     if (cadete == null)
-    //     {
-    //         return NotFound();
-    //     }
-    //     return View(cadete);
-    // }
+        EditarCdtViewModel? cadete = new EditarCdtViewModel();
+        foreach (var item in inicioDatos.getCadetes())
+        {
+            if (item.getId()==id)
+            {
+                cadete!.id=item.getId();
+                cadete!.NombreCadete=item.getNom();
+                cadete!.Direccion=item.getCalle();
+                cadete!.Numero=item.getNumero();
+                cadete!.Telefono=item.getTelefono();
+            }
+        }
+        if (cadete == null)
+        {
+            return NotFound();
+        }
+        return View(cadete);
+    }
 
-    // // POST: Cadetes/Edit/5
-    // // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-    // [HttpPost]
-    // [ValidateAntiForgeryToken]
-    // public async Task<IActionResult> Edit(int id, [Bind("id,nombre,calle,numero,telefono")] Cadete cadete)
-    // {
-    //     if (id != cadete.id)
-    //     {
-    //         return NotFound();
-    //     }
+    // ***************************************************************POST: Cadetes/Editar/
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Editar(int id, EditarCdtViewModel cadete)
+    {
+        if (id != cadete.id)
+        {
+            return NotFound();
+        }
 
-    //     if (ModelState.IsValid)
-    //     {
-    //         try
-    //         {
-    //             _context.Update(cadete);
-    //             await _context.SaveChangesAsync();
-    //         }
-    //         catch (DbUpdateConcurrencyException)
-    //         {
-    //             if (!CadeteExists(cadete.id))
-    //             {
-    //                 return NotFound();
-    //             }
-    //             else
-    //             {
-    //                 throw;
-    //             }
-    //         }
-    //         return RedirectToAction(nameof(Index));
-    //     }
-    //     return View(cadete);
-    // }
+        // if (ModelState.IsValid)
+        // {
+        //     foreach (var item in inicioDatos.getCadetes())
+        //     {
+        //         if (item.getId()==id)
+        //         {
+        //             item.setNom(cadete.NombreCadete!);
+        //             item.setCalle(cadete.Direccion!);
+        //             item.setNumero(cadete.Numero);
+        //             item.setTelefono(cadete.Telefono!);
+        //         }
+        //     }
+        //     return RedirectToAction(nameof(Index));
+        // }
+        //++++++++++++++++++++++++++++++++++++++++++++
+        if(ModelState.IsValid){
+            var buscaCadete =   from cdt in inicioDatos.getCadetes()
+                            where cdt.getId()==id
+                            select cdt;
+            if ((buscaCadete.Count())!=0){
+                foreach (var item in buscaCadete)
+                {
+                    if(item.getId()==id){
+                        item.setNom(cadete.NombreCadete!);
+                        item.setCalle(cadete.Direccion!);
+                        item.setNumero(cadete.Numero);
+                        item.setTelefono(cadete.Telefono!);
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }else{
+                return NotFound();
+            }
+        }
+        
+        //+++++++++++++++++++++++++++++++++
+        return View(cadete);
+    }
 
-    // GET: Cadetes/Delete/5
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++GET: Cadetes/Delete/5
     public IActionResult Delete(int? id)
     {
         Cadete? cadete=null;
@@ -176,14 +199,6 @@ public class CadetesController : Controller
                     eliminar=item;
                 }
             }
-            // List<Cadete> nuevo = new List<Cadete>();
-            // foreach (var item in inicioDatos.getCadetes())
-            // {
-            //     if (item.getId()!=id)
-            //     {
-            //         nuevo.Add(item);
-            //     }
-            // }
             if(inicioDatos.getCadetes().Remove(eliminar!)){
                 string archivo = "listaCadetes.csv";
                 HelperDeArchivos.GuardarCSV(archivo,inicioDatos.getCadetes(),inicioDatos.getCadeteria());

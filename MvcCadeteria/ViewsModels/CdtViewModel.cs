@@ -1,9 +1,13 @@
 using MvcCadeteria.Models;
-public class ClientViewModel
+public class CdtViewModel
 {
-    public string Name { get; set; }
+    public string? id { get; set; }
  
-    public string LastName { get; set; }
+    public string? nombre { get; set; }
  
-    public string Email { get; set; }
+    public string? calle { get; set; }
+
+    public string? numero { get; set; }
+
+    public string? telefono { get; set; }
 }
