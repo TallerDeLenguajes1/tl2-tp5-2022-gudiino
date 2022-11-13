@@ -45,13 +45,13 @@ public class CadetesController : Controller
         return View(cadete);
     }
 
-    // GET: Cadetes/Create
+    //**************************************************** GET: Cadetes/Create
     public IActionResult Create()
     {
         return View(new AltaCdtViewModel());
     }
 
-    // POST: Cadetes/Crear
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++POST: Cadetes/Crear
     [HttpPost]
     
     public IActionResult Create(AltaCdtViewModel nuevoCadete)

@@ -58,22 +58,28 @@ namespace MvcCadeteria.Controllers
 
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++POST: alta pedido
         [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public IActionResult Create(AltaPd2ViewModel pedido)
         {
+            int mayor;
+            if (inicioDatos.getClientes().Count==0)
+            {
+                mayor=0;
+            }else{
+                mayor = inicioDatos.getClientes().Max(x => x.getId());
+            }
+            int mayor2;
+            if (inicioDatos.getClientes().Count==0)
+            {
+                mayor2=0;
+            }else{
+                mayor2 = inicioDatos.getPedidos().Max(x => x.id_pedido);
+            } 
             if (ModelState.IsValid)
             {
-                int mayor;
-                if (inicioDatos.getClientes().Count==0)
-                {
-                    mayor=0;
-                }else{
-                    mayor = inicioDatos.getClientes().Max(x => x.getId());
-                }
-                Cliente nuevoCliente= new(mayor+1,pedido.nombre_cliente!,pedido.Direccion!,pedido.Numero,pedido.Telefono!,pedido.detalle_direccion!);
+                
+                Cliente nuevoCliente= new Cliente(mayor+1,pedido.nombre_cliente!,pedido.Direccion!,pedido.Numero,pedido.Telefono!,pedido.detalle_direccion!);
                 inicioDatos.getClientes().Add(nuevoCliente);
-                int mayor2=0;
-                mayor2 = inicioDatos.getPedidos().Max(x => x.id_pedido);
                 Pedido nuevoPedido=new Pedido(mayor2+1,pedido.detalle_pedido!,pedido.estado_pedido!,nuevoCliente);
                 inicioDatos.getPedidos().Add(nuevoPedido);
                 return RedirectToAction(nameof(Index));
