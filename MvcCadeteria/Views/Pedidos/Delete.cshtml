@@ -1,0 +1,45 @@
+@model MvcCadeteria.Models.Pedido
+
+@{
+    ViewData["Title"] = "Pedido | Eliminar";
+}
+
+<h1>Eliminar</h1>
+
+<h3>¿Esta seguro de eliminar el pedido?</h3>
+<div>
+    <h4>Pedido</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            <p>Detalle Pedido</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.detalle_pedido</p>
+        </dd>
+        <dt class = "col-sm-2">
+            <p>Id Cliente</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.cliente_pedido.getId()</p>
+        </dd>
+        <!--<dt class = "col-sm-2">
+            Html.DisplayNameFor(model => model.cadete)
+        </dt>
+        <dd class = "col-sm-10">
+            Html.DisplayFor(model => model.cadete)
+        </dd>-->
+        <dt class = "col-sm-2">
+            <p>Estado Pedido</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.estado_pedido</p>
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="@Model.id_pedido" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index">Volver</a>
+    </form>
+</div>

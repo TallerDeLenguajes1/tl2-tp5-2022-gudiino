@@ -1,0 +1,57 @@
+@model List<Pedido>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Alta Pedido</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <p>Id Pedido</p>
+            </th>
+            <th>
+                <p>Observacion Pedido</p>
+            </th>
+            <th>
+                <p>Id Cliente</p>
+            </th>
+           <!-- <th>
+                <p>Id Cadete</p>
+            </th>-->
+            <th>
+                <p>Estado Pedido</p>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <p>@item.id_pedido</p>
+            </td>
+            <td>
+                <p>@item.detalle_pedido</p>
+            </td>
+            <td>
+                <p>@item.cliente_pedido.getId()</p>
+            </td>
+            
+            <td>
+                <p>@item.estado_pedido</p>
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id_pedido">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.id_pedido">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.id_pedido">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

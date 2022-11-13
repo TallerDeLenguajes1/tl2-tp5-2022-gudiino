@@ -11,7 +11,7 @@ namespace MvcCadeteria.Controllers;
 
 public class CadetesController : Controller
 {
-    Cadeteria inicioDatos = new Cadeteria();
+    private Cadeteria inicioDatos = new Cadeteria();
 
     // GET: Cadetes
     public IActionResult Index()

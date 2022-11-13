@@ -8,8 +8,9 @@ namespace MvcCadeteria.Models {
         private string? nombre {get; set;}
         private string? telefono {get; set;}
         public static float pago_x_entrega {get; set;}
-        private static int cantidad_pedidos_dia=0;
-        private List<Cadete>? cadetes {get; set;}
+        private List<Cadete> cadetes {get; set;}
+        private List<Cliente> clientes {get; set;}
+        private List<Pedido> pedidos {get; set;}
         
         public string[] getCadeteria(){
             string pago2=pago_x_entrega.ToString();
@@ -17,10 +18,12 @@ namespace MvcCadeteria.Models {
             return nuevo;
         }
         public Cadeteria(){
-            cargarDatos();
+            cadetes=cargarDatos();
+            clientes=new List<Cliente>();
+            pedidos=new List<Pedido>();
         }
-        private void cargarDatos(){
-            cadetes=new List<Cadete>();
+        private List<Cadete> cargarDatos(){
+            List<Cadete> cadetes2=new List<Cadete>();
             string archivo = "listaCadetes.csv";
             bool aux=false;
             if(File.Exists(archivo)){
@@ -33,7 +36,7 @@ namespace MvcCadeteria.Models {
                         if(aux==true){
                             int n = Convert.ToInt32(item[0]);
                             int x = Convert.ToInt32(item[3]);
-                            cadetes.Add(new Cadete(n,item[1],item[2],x,item[4]));
+                            cadetes2.Add(new Cadete(n,item[1],item[2],x,item[4]));
                         }else{
                             nombre=item[0];
                             telefono=item[1];
@@ -74,22 +77,8 @@ namespace MvcCadeteria.Models {
                 Console.WriteLine("NO SE ENCONTRO EL ARCHIVO CORRESPONDIENTE A LOS DATOS DE LA CADETERIA");
                 Console.WriteLine("VERIFIQUE LA PLANILLA CON LOS DATOS DE LA CADETERIA Y LOS CADETES");
             }
+            return cadetes2;
         }
-        // public void listar_info_cadeteria(){
-        //     Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        //     Console.WriteLine("Nombre Cadeteria: {0} | Telefono: {1} | Pago por entrega: ${2}",nombre,telefono,pago_x_entrega);
-        //     Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        //     Console.WriteLine("Cadetes registrados");
-        //     Console.WriteLine();
-        //     mostra_lista_cadetes();
-        // }
-        // public void mostra_lista_cadetes(){
-        //     Console.WriteLine("Id     |Nombre      |Calle              |Numero       |Telefono");
-        //     foreach (var item in cadetes!)
-        //     {
-        //         item.listar_info_persona();
-        //     }
-        // }
         // public int getNumPedido(){
         //     return cantidad_pedidos_dia;
         // }
@@ -98,6 +87,12 @@ namespace MvcCadeteria.Models {
         // }
         public List<Cadete> getCadetes(){
             return cadetes!;
+        }
+        public List<Cliente> getClientes(){
+            return clientes!;
+        }
+        public List<Pedido> getPedidos(){
+            return pedidos!;
         }
     }
 }
