@@ -6,109 +6,72 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MvcCadeteria.Models;
 using MvcCadeteria.ViewModels;
+using MvcCadeteria.Repositorio;
+using AutoMapper;
 
 namespace MvcCadeteria.Controllers;
 
 public class CadetesController : Controller
 {
-    private Cadeteria inicioDatos = new Cadeteria();
+    private readonly IMapper _mappeo;
+    private readonly MiRepositorioCadete _repoCadete;
 
-    // GET: Cadetes
-    public IActionResult Index()
+    public CadetesController(IMapper mappeo, MiRepositorioCadete repoCadete)
     {
-            return inicioDatos.getCadetes != null ? 
-                        View(inicioDatos.getCadetes()) :
-                        Problem("La lista de cadete es null.");
+        _mappeo = mappeo;
+        _repoCadete = repoCadete;
     }
     
-    // *********************************************************GET: Cadetes/Detalles
-    public IActionResult Details(int? id)
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ GET: Listado Cadetes
+    public IActionResult Index()
     {
-        if (id == null || inicioDatos.getCadetes() == null)
-        {
-            return NotFound();
-        }
-
-        Cadete? cadete = null;
-        foreach (var item in inicioDatos.getCadetes())
-        {
-            if (item.getId()==id)
-            {
-                cadete=item;
-            }
-        }
-        if (cadete == null)
-        {
-            return NotFound();
-        }
-
-        return View(cadete);
+        List<CdtViewModel> nuevo = _mappeo.Map<List<CdtViewModel>>(_repoCadete.getCadetes());
+        return nuevo != null ? 
+                        View(nuevo) :
+                        Problem("La lista de cadete es null.");
     }
-
-    //**************************************************** GET: Cadetes/Create
+    // ************************************************************ GET: Detalles Cadete
+    public IActionResult Details(int id)
+    {
+        if(_repoCadete.getCadete(id) == null) return NotFound();
+        CdtViewModel? nuevo = _mappeo.Map<CdtViewModel>(_repoCadete.getCadete(id));
+        if (nuevo == null) return NotFound();
+        return View(nuevo);
+    }
+    //**************************************************************  GET: Crear Cadete
     public IActionResult Create()
     {
         return View(new AltaCdtViewModel());
     }
-
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++POST: Cadetes/Crear
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ POST: Crear Cadete
     [HttpPost]
-    
-    public IActionResult Create(AltaCdtViewModel nuevoCadete)
-    {//Cadete(int iden, string nom, string dir,int num, string tel)
-        int ultimoId=0;
-        foreach (var item in inicioDatos.getCadetes())
-        {
-            if(item.getId()>ultimoId)ultimoId=item.getId();
-        }
-        int id=ultimoId+1;
-        // Cadete cadete = new Cadete(id,nombr,call,numer,telefon);
-        // if (cadete!=null)
-        // {
-        //     string archivo = "listaCadetes.csv";
-        //     inicioDatos.getCadetes().Add(cadete);
-        //     HelperDeArchivos.GuardarCSV(archivo,inicioDatos.getCadetes(),inicioDatos.getCadeteria());
-        //     return RedirectToAction(nameof(Index));
-        // }
+    [ValidateAntiForgeryToken]
+    public IActionResult Create(AltaCdtViewModel newCdt)
+    {
         if (ModelState.IsValid)
         {
-            Cadete cadete = new Cadete(id,nuevoCadete.NombreCadete!,nuevoCadete.Direccion!,nuevoCadete.Numero,nuevoCadete.Telefono!);
-            string archivo = "listaCadetes.csv";
-            inicioDatos.getCadetes().Add(cadete);
-            HelperDeArchivos.GuardarCSV(archivo,inicioDatos.getCadetes(),inicioDatos.getCadeteria());
-            return RedirectToAction(nameof(Index));
+            if(_repoCadete.altaCadete(newCdt)){
+                return RedirectToAction(nameof(Index));
+            } 
         }
         return View();
     }
-
-    // GET: Cadetes/Editar **********************************************************************
-    public IActionResult Editar(int? id)
+    //***************************************************************** GET: Editar Cadete
+    public IActionResult Editar(int id)
     {
-        if (id == null || inicioDatos.getCadetes() == null)
+        Cadete nuevo= _repoCadete.getCadete(id);
+        if (nuevo == null)
         {
             return NotFound();
         }
-
-        EditarCdtViewModel? cadete = new EditarCdtViewModel();
-        foreach (var item in inicioDatos.getCadetes())
-        {
-            if (item.getId()==id)
-            {
-                cadete!.id=item.getId();
-                cadete!.NombreCadete=item.getNom();
-                cadete!.Direccion=item.getCalle();
-                cadete!.Numero=item.getNumero();
-                cadete!.Telefono=item.getTelefono();
-            }
-        }
+        EditarCdtViewModel? cadete = _mappeo.Map<EditarCdtViewModel>(nuevo);
         if (cadete == null)
         {
             return NotFound();
         }
         return View(cadete);
     }
-
-    // ***************************************************************POST: Cadetes/Editar/
+    // ***************************************************************** POST: Editar Cadete
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Editar(int id, EditarCdtViewModel cadete)
@@ -117,55 +80,26 @@ public class CadetesController : Controller
         {
             return NotFound();
         }
-
-        // if (ModelState.IsValid)
-        // {
-        //     foreach (var item in inicioDatos.getCadetes())
-        //     {
-        //         if (item.getId()==id)
-        //         {
-        //             item.setNom(cadete.NombreCadete!);
-        //             item.setCalle(cadete.Direccion!);
-        //             item.setNumero(cadete.Numero);
-        //             item.setTelefono(cadete.Telefono!);
-        //         }
-        //     }
-        //     return RedirectToAction(nameof(Index));
-        // }
-        //++++++++++++++++++++++++++++++++++++++++++++
         if(ModelState.IsValid){
-            var buscaCadete =   from cdt in inicioDatos.getCadetes()
-                            where cdt.getId()==id
-                            select cdt;
-            if ((buscaCadete.Count())!=0){
-                foreach (var item in buscaCadete)
-                {
-                    if(item.getId()==id){
-                        item.setNom(cadete.NombreCadete!);
-                        item.setCalle(cadete.Direccion!);
-                        item.setNumero(cadete.Numero);
-                        item.setTelefono(cadete.Telefono!);
-                    }
-                }
+            //Cadete cdtUpdate = _mappeo.Map<Cadete>(cadete);
+            if ( _repoCadete.updateCadete(cadete)){
+               
                 return RedirectToAction(nameof(Index));
             }else{
                 return NotFound();
             }
         }
-        
-        //+++++++++++++++++++++++++++++++++
         return View(cadete);
     }
-
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++GET: Cadetes/Delete/5
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ GET: Eliminar Cadete
     public IActionResult Delete(int? id)
     {
         Cadete? cadete=null;
-        if (id == null || inicioDatos.getCadetes() == null)
+        if (id == null || _repoCadete.getCadetes() == null)
         {
             return NotFound();
         }
-        var buscaCadete =   from cdt in inicioDatos.getCadetes()
+        var buscaCadete =   from cdt in _repoCadete.getCadetes()
                             where cdt.getId()==id
                             select cdt;
         if ((buscaCadete.Count())!=0){
@@ -184,11 +118,11 @@ public class CadetesController : Controller
     public IActionResult DeleteConfirmed(int id)
     {
         Cadete? eliminar=null;
-        if (inicioDatos.getCadetes() == null)
+        if (_repoCadete.getCadetes() == null)
         {
             return Problem("Entity set 'MvcCadeteriaContext.Cadete'  is null.");
         }
-        var buscaCadete =   from cdt in inicioDatos.getCadetes()
+        var buscaCadete =   from cdt in _repoCadete.getCadetes()
                             where cdt.getId()==id
                             select cdt;
         if ((buscaCadete.Count())!=0){
@@ -199,9 +133,9 @@ public class CadetesController : Controller
                     eliminar=item;
                 }
             }
-            if(inicioDatos.getCadetes().Remove(eliminar!)){
+            if(_repoCadete.getCadetes().Remove(eliminar!)){
                 string archivo = "listaCadetes.csv";
-                HelperDeArchivos.GuardarCSV(archivo,inicioDatos.getCadetes(),inicioDatos.getCadeteria());
+                //HelperDeArchivos.GuardarCSV(archivo,_repoCadete.getCadetes(),_repoCadete.getCadeteria());
                 Console.WriteLine(" eliminaDO");
             }else{
                 Console.WriteLine("fallo eliminacion");

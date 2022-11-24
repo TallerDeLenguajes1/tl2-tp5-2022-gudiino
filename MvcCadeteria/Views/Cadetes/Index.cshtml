@@ -1,4 +1,4 @@
-@model List<Cadete>
+@model List<CdtViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -34,24 +34,24 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                <p>@item.getId()</p>
+                <p>@item.id</p>
             </td>
             <td>
-                <p>@item.getNom()</p>
+                <p>@item.nombre</p>
             </td>
             <td>
-                <p>@item.getCalle()</p>
+                <p>@item.calle</p>
             </td>
             <td>
-                <p>@item.getNumero()</p>
+                <p>@item.numero</p>
             </td>
             <td>
-                <p>@item.getTelefono()</p>
+                <p>@item.telefono</p>
             </td>
             <td>
-                <a asp-action="Editar" asp-route-id="@item.getId()">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.getId()">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.getId()">Eliminar</a>
+                <a asp-action="Editar" asp-route-id="@item.id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Eliminar</a>
             </td>
         </tr>
 }

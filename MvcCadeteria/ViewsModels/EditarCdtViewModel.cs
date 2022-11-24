@@ -11,18 +11,18 @@ namespace MvcCadeteria.ViewModels
         [Required]
         [StringLength(100)]
         [Display(Name="Nombre Cadete")]
-        public string? NombreCadete { get; set;}
+        public string? nombre { get; set;}
 
         [Required]
         [StringLength(100)]
         [Display(Name="Calle")]
-        public string? Direccion { get; set;}
+        public string? calle { get; set;}
 
         [Required]
-        public int Numero { get; set;}
+        public int numero { get; set;}
 
         [Phone]
-        public string? Telefono { get; set;}
+        public string? telefono { get; set;}
         
     }
 }

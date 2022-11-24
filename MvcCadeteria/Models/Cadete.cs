@@ -2,8 +2,11 @@ using System;
 namespace MvcCadeteria.Models {
     public class Cadete:Persona {
         private List<Pedido>? pedidos {get; set;}
-        public Cadete(int iden, string nom, string dir,int num, string tel):base(iden, nom, dir, num, tel){
+        public Cadete(int Id, string Nom, string Dir,int Num, string Tel):base(Id, Nom, Dir, Num, Tel){
             pedidos=new List<Pedido>();
+        }
+        public Cadete():base(){
+            //pedidos=new List<Pedido>();
         }
         // public float jornalAcobrar(){
         //     return CantidadPedidos()*Cadeteria.pago_x_entrega;

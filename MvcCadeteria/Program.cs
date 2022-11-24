@@ -1,7 +1,25 @@
+using AutoMapper;
+using MvcCadeteria;
+using MvcCadeteria.Repositorio;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<MiRepositorioCadete, RepositorioCadete>();
+builder.Services.AddAutoMapper(typeof(Program));
+
+// configuracion de mi perfil de mapeo//https://www.youtube.com/watch?v=8GbkIP2uC6o
+var mapperConfig = new MapperConfiguration(m => 
+{
+    m.AddProfile(new MiPerfilDeMapeo());
+});
+IMapper mapper = mapperConfig.CreateMapper();
+//builder.Services.AddSingleton(mapper);
+
+
+
+
 
 var app = builder.Build();
 

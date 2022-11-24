@@ -1,4 +1,4 @@
-@model Cadete
+@model CdtViewModel
 
 @{
     ViewData["Title"] = "Detalles";
@@ -14,35 +14,35 @@
             <p>Id</p>
         </dt>
         <dd class = "col-sm-10">
-            <p>@Model.getId()</p>
+            <p>@Model.id</p>
         </dd>
         <dt class = "col-sm-2">
             <p>Nombre</p>
         </dt>
         <dd class = "col-sm-10">
-            <p>@Model.getNom()</p>
+            <p>@Model.nombre</p>
         </dd>
         <dt class = "col-sm-2">
             <p>Calle</p>
         </dt>
         <dd class = "col-sm-10">
-            <p>@Model.getCalle()</p>
+            <p>@Model.calle</p>
         </dd>
         <dt class = "col-sm-2">
             <p>Numero</p>
         </dt>
         <dd class = "col-sm-10">
-            <p>@Model.getNumero()</p>
+            <p>@Model.numero</p>
         </dd>
         <dt class = "col-sm-2">
             <p>Telefono</p>
         </dt>
         <dd class = "col-sm-10">
-            <p>@Model.getTelefono()</p>
+            <p>@Model.telefono</p>
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Editar" asp-route-id="@Model.getId()">Editar</a> |
+    <a asp-action="Editar" asp-route-id="@Model.id">Editar</a> |
     <a asp-action="Index">Volver</a>
 </div>

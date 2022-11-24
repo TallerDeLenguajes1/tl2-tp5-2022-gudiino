@@ -14,6 +14,13 @@ namespace MvcCadeteria.Models {
             numero=num;
             telefono=tel;
         }
+        public Persona(){
+            // id=0;
+            // nombre="Sin Dato";
+            // calle="Sin Dato";
+            // numero=0;
+            // telefono="Sin Dato";
+        }
         public int getId(){
             return id;
         }
