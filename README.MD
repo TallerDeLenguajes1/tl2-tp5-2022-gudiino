@@ -1,5 +1,6 @@
+Desarrollo trabajos practicos de Taller de Lenguaje 2
+
 # TP5
-Desarrollo trabajo practico de taller de lenguaje 2
 
 **OBJETIVOS**
 
@@ -8,6 +9,24 @@ Desarrollo trabajo practico de taller de lenguaje 2
 ● Validaciones 
 
 ● View Models
+
+# TP6 
+
+Desarrollo en una segunda Rama "TP6"
+
+**OBJETIVOS**
+
+● Creación DB
+
+● Manejo SQL
+
+# TP7
+
+Desarrollo en segunda Rama "TP6"
+
+**OBJETIVOS**
+
+● Inyección de dependencias
 
 **Autor**
 ##_Jorge Juan Gudiño_
