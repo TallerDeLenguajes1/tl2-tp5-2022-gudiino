@@ -8,11 +8,13 @@ using MvcCadeteria.Models;
 using MvcCadeteria.ViewModels;
 using MvcCadeteria.Repositorio;
 using AutoMapper;
-
+using Microsoft.AspNetCore.Session;//paquete 1  para usar sesiones
+using Microsoft.AspNetCore.Http;// paquete 2 para usar sesiones
 namespace MvcCadeteria.Controllers;
 
 public class CadetesController : Controller
 {
+    //public const string SessionKeyName = "_Name";
     private readonly IMapper _mappeo;
     private readonly MiRepositorioCadete _repoCadete;
 
