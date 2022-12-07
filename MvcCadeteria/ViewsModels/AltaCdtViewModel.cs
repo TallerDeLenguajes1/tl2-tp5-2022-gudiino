@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.ComponentModel.DataAnnotations;
 
 namespace MvcCadeteria.ViewModels
@@ -6,13 +7,16 @@ namespace MvcCadeteria.ViewModels
     public class AltaCdtViewModel
     {
         [Required]
-        [StringLength(100)]
-        [Display(Name="Nombre Cadete")]
-        public string? NombreCadete { get; set;}
+        public int Id { get; set;}
 
         [Required]
         [StringLength(100)]
-        [Display(Name="Calle")]
+        [Display(Name="Nombre Cadete")]
+        public string? Nombre { get; set;}
+
+        [Required]
+        [StringLength(100)]
+        [Display(Name="Domicilio")]
         public string? Direccion { get; set;}
 
         [Required]
@@ -20,6 +24,9 @@ namespace MvcCadeteria.ViewModels
 
         [Phone]
         public string? Telefono { get; set;}
+
+        [Required]
+        public int Sucursal { get; set;}
         
     }
 }

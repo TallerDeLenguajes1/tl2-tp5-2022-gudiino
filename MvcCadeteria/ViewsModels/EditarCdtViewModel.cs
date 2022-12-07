@@ -15,14 +15,13 @@ namespace MvcCadeteria.ViewModels
 
         [Required]
         [StringLength(100)]
-        [Display(Name="Calle")]
-        public string? calle { get; set;}
-
-        [Required]
-        public int numero { get; set;}
+        [Display(Name="Domicilio")]
+        public string? domicilio { get; set;}
 
         [Phone]
         public string? telefono { get; set;}
         
+        [Required]
+        public int sucursal { get; set;}
     }
 }

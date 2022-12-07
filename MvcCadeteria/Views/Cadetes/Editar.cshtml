@@ -4,9 +4,9 @@
     ViewData["Title"] = "Editar";
 }
 
-<h1>Editar</h1>
+<h1>Editar Cadete</h1>
 
-<h4>Cadete</h4>
+<h4></h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,19 +19,19 @@
                 <span asp-validation-for="@Model.nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.calle" class="control-label"></label>
-                <input asp-for="@Model.calle" class="form-control" value="@Model.calle"/>
-                <span asp-validation-for="@Model.calle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.numero" class="control-label"></label>
-                <input asp-for="@Model.numero" class="form-control" value="@Model.numero"/>
-                <span asp-validation-for="@Model.numero" class="text-danger"></span>
+                <label asp-for="@Model.domicilio" class="control-label"></label>
+                <input asp-for="@Model.domicilio" class="form-control" value="@Model.domicilio"/>
+                <span asp-validation-for="@Model.domicilio" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.telefono" class="control-label"></label>
                 <input asp-for="@Model.telefono" class="form-control" value="@Model.telefono"/>
                 <span asp-validation-for="@Model.telefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.sucursal" class="control-label"></label>
+                <input asp-for="@Model.sucursal" class="form-control" value="@Model.sucursal"/>
+                <span asp-validation-for="@Model.sucursal" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Guardar" class="btn btn-primary" />

@@ -1,13 +1,13 @@
 @model CdtViewModel
 
 @{
-    ViewData["Title"] = "Detalles";
+    ViewData["Title"] = "Información";
 }
 
-<h1>Detalles</h1>
+<h1>Información del Cadete</h1>
 
 <div>
-    <h4>Cadete</h4>
+    <h4></h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -23,19 +23,13 @@
             <p>@Model.nombre</p>
         </dd>
         <dt class = "col-sm-2">
-            <p>Calle</p>
+            <p>Domicilio</p>
         </dt>
         <dd class = "col-sm-10">
-            <p>@Model.calle</p>
+            <p>@Model.domicilio</p>
         </dd>
         <dt class = "col-sm-2">
-            <p>Numero</p>
-        </dt>
-        <dd class = "col-sm-10">
-            <p>@Model.numero</p>
-        </dd>
-        <dt class = "col-sm-2">
-            <p>Telefono</p>
+            <p>Teléfono</p>
         </dt>
         <dd class = "col-sm-10">
             <p>@Model.telefono</p>

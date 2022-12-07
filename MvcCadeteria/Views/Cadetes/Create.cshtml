@@ -4,18 +4,20 @@
     ViewData["Title"] = "Crear";
 }
 
-<h1>Crear</h1>
+<h1>Alta nuevo Cadete</h1>
 
-<h4>Nuevo Cadete</h4>
+<h4></h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="@Model.Id" value="0"/>
+                <span asp-validation-for="@Model.Id" class="text-danger"></span>
             <div class="form-group">
-                <label asp-for="@Model.NombreCadete" class="control-label"></label>
-                <input asp-for="@Model.NombreCadete" class="form-control" />
-                <span asp-validation-for="@Model.NombreCadete" class="text-danger"></span>
+                <label asp-for="@Model.Nombre" class="control-label"></label>
+                <input asp-for="@Model.Nombre" class="form-control" />
+                <span asp-validation-for="@Model.Nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Direccion" class="control-label"></label>
@@ -23,14 +25,14 @@
                 <span asp-validation-for="@Model.Direccion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Numero" class="control-label"></label>
-                <input asp-for="@Model.Numero" class="form-control" />
-                <span asp-validation-for="@Model.Numero" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="@Model.Telefono" class="control-label"></label>
                 <input asp-for="@Model.Telefono" class="form-control" />
                 <span asp-validation-for="@Model.Telefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Sucursal" class="control-label"></label>
+                <input asp-for="@Model.Sucursal" class="form-control" value="1" />
+                <span asp-validation-for="@Model.Sucursal" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" />

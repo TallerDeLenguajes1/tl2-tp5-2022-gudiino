@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
-using System.Threading.Tasks;
 using MvcCadeteria.Models;
 using MvcCadeteria.ViewModels;
 
@@ -11,17 +8,18 @@ namespace MvcCadeteria.Repositorio
     public class RepositorioCadete : MiRepositorioCadete
     {
         private static  string CadenaDeConexionPedidosDB = "Data Source=PedidosDB.db; Version=3";
+        // **************************************************************************
         public List<Cadete> getCadetes()
         {
             List<Cadete> lista = new List<Cadete>();
-            string CadenaDeConsulta = "SELECT id_persona, nombre, direccion, numero, telefono FROM cadetes INNER JOIN personas ON id_cadete=id_persona";
+            string CadenaDeConsulta = "SELECT * FROM cadetes";
             using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
             {
                 SQLiteCommand command = new SQLiteCommand(CadenaDeConsulta,connexion);
                 connexion.Open();
                 using(SQLiteDataReader reader = command.ExecuteReader()){
                     while(reader.Read()){
-                        Cadete nuevo = new Cadete(reader.GetInt32(0),reader.GetString(1),reader.GetString(2),reader.GetInt32(3),reader.GetString(4));
+                        Cadete nuevo = new Cadete(reader.GetInt32(0),reader.GetString(1),reader.GetString(2),reader.GetString(3),reader.GetInt32(4));
                         lista.Add(nuevo);
                     }
                 }
@@ -29,24 +27,45 @@ namespace MvcCadeteria.Repositorio
             }
             return lista;
         }
+         // **************************************************************************
         public Cadete getCadete(int id)
         {
-            Cadete? cdt=null;
-            string CadenaDeConsulta = "SELECT id_persona, nombre, direccion, numero, telefono FROM cadetes INNER JOIN personas ON id_cadete=id_persona WHERE id_cadete="+id;
+            Cadete? cdt= null;
+            string CadenaDeConsulta = "SELECT * FROM cadetes WHERE id_cadete="+id;
             using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
             {
                 SQLiteCommand command = new SQLiteCommand(CadenaDeConsulta,connexion);
                 connexion.Open();
                 using(SQLiteDataReader reader = command.ExecuteReader()){
                         while(reader.Read()){
-                        cdt = new Cadete(reader.GetInt32(0),reader.GetString(1),reader.GetString(2),reader.GetInt32(3),reader.GetString(4));
+                        cdt = new Cadete(reader.GetInt32(0),reader.GetString(1),reader.GetString(2),reader.GetString(3),reader.GetInt32(4));
                     }
                 }
                 connexion.Close();
             }
             return cdt!;
         }
-        public bool updateCadete(EditarCdtViewModel cdt)
+        //******************************************************************************
+        public bool altaCadete(Cadete cdt)
+        {
+            int valor=0;
+            using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
+            {
+                SQLiteCommand command = new();
+                connexion.Open();
+                command.CommandText="INSERT INTO cadetes (nombre,direccion,telefono, id_cadeteria) VALUES (@nom,@call,@tel,@suc)";
+                command.Connection=connexion;
+                command.Parameters.AddWithValue("@nom",cdt.cdt_nombre);
+                command.Parameters.AddWithValue("@call",cdt.cdt_domicilio);
+                command.Parameters.AddWithValue("@tel",cdt.cdt_telefono);
+                command.Parameters.AddWithValue("@suc",cdt.cdt_id_sucursal);
+                valor = command.ExecuteNonQuery();
+                connexion.Close();
+            }
+            return valor>0;
+        }
+         // **************************************************************************
+        public bool updateCadete(Cadete cdt)
         {
             int valor=0;
             //****
@@ -63,59 +82,32 @@ namespace MvcCadeteria.Repositorio
                 //SQLiteCommand command = new SQLiteCommand(CadenaDeUpdate,connexion);
                 SQLiteCommand command = new();
                 connexion.Open();
-                command.CommandText="UPDATE personas SET nombre=@nom, direccion=@call, numero=@num, telefono=@tel WHERE id_persona=@id";
+                command.CommandText="UPDATE cadetes SET nombre=@nom, direccion=@call, telefono=@tel, id_cadeteria=@suc WHERE id_persona=@id";
                 command.Connection=connexion;
-                command.Parameters.AddWithValue("@nom",cdt.nombre);
-                command.Parameters.AddWithValue("@call",cdt.calle);
-                command.Parameters.AddWithValue("@num",cdt.numero);
-                command.Parameters.AddWithValue("@tel",cdt.telefono);
-                command.Parameters.AddWithValue("@id",cdt.id);
+                command.Parameters.AddWithValue("@nom",cdt.cdt_nombre);
+                command.Parameters.AddWithValue("@call",cdt.cdt_domicilio);
+                command.Parameters.AddWithValue("@tel",cdt.cdt_telefono);
+                command.Parameters.AddWithValue("@id",cdt.cdt_id_sucursal);
                 valor=command.ExecuteNonQuery();
                 connexion.Close();
             }
             if(valor==0){return false;}else{return true;}
         }
-        public bool altaCadete(AltaCdtViewModel cdt){
-            int valor=0;
-            int id=altaPersona(cdt.NombreCadete!,cdt.Direccion!,cdt.Numero,cdt.Telefono!);
-            if(id!=0){
-                using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
-                {
-                    SQLiteCommand command = new();
-                    connexion.Open();
-                    command.CommandText="INSERT INTO cadetes (id_cadete, id_cadeteria) VALUES (@id, @sucursal)";
-                    command.Connection=connexion;
-                    command.Parameters.AddWithValue("@id",id);
-                    command.Parameters.AddWithValue("@sucursal",1);
-                    valor=command.ExecuteNonQuery();
-                    connexion.Close();
-                }
-            }
-            if(valor==0){return false;}else{return true;}
-        }
-        public int altaPersona(string nom, string calle, int num, string tel)
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        public bool deleteCadete(int id_cdt)
         {
+            int num_eliminado=0;
+            string CadenaDeConsulta = "DELETE FROM cadetes WHERE id_cadete="+id_cdt;
             using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
             {
-                int valor=0;
-                SQLiteCommand command = new();
+                SQLiteCommand command = new SQLiteCommand(CadenaDeConsulta,connexion);
                 connexion.Open();
-                command.CommandText="INSERT INTO personas (nombre,direccion,numero,telefono) VALUES (@nom,@call,@num,@tel)";
-                command.Connection=connexion;
-                command.Parameters.AddWithValue("@nom",nom);
-                command.Parameters.AddWithValue("@call",calle);
-                command.Parameters.AddWithValue("@num",num);
-                command.Parameters.AddWithValue("@tel",tel);
-                valor = command.ExecuteNonQuery();
+                num_eliminado=Convert.ToInt32(command.ExecuteNonQuery());
                 connexion.Close();
-                if(valor>0)
-                {
-                    return ultimoIdPersona();
-                }else{
-                    return 0;
-                }
             }
+            return num_eliminado>0;
         }
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         public int ultimoIdPersona()
         {
             int IdBuscado;

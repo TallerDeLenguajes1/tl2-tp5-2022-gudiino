@@ -5,9 +5,7 @@ public class CdtViewModel
  
     public string? nombre { get; set; }
  
-    public string? calle { get; set; }
-
-    public string? numero { get; set; }
+    public string? domicilio { get; set; }
 
     public string? telefono { get; set; }
 }

@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Index";
-    //Console.WriteLine("Id     |Nombre      |Calle              |Numero       |Telefono");
+    //Console.WriteLine("Id     |Nombre      |domicilio     |telefono   ");
 }
 
 <h1>LISTADO DE CADETES</h1>
@@ -18,13 +18,10 @@
                 <p>Id</p>
             </th>
             <th>
-                <p>Nombre</p>
+                <p>Nombres</p>
             </th>
             <th>
-                <p>Calle</p>
-            </th>
-            <th>
-                <p>Numero</p>
+                <p>Domicilio</p>
             </th>
             <th>
                 <p>Telefono</p>
@@ -41,17 +38,14 @@
                 <p>@item.nombre</p>
             </td>
             <td>
-                <p>@item.calle</p>
-            </td>
-            <td>
-                <p>@item.numero</p>
+                <p>@item.domicilio</p>
             </td>
             <td>
                 <p>@item.telefono</p>
             </td>
             <td>
+                <a asp-action="Info" asp-route-id="@item.id">Info</a> |
                 <a asp-action="Editar" asp-route-id="@item.id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Detalles</a> |
                 <a asp-action="Delete" asp-route-id="@item.id">Eliminar</a>
             </td>
         </tr>

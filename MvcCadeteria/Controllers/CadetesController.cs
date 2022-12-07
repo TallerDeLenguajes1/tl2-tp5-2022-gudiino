@@ -1,15 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using MvcCadeteria.Models;
 using MvcCadeteria.ViewModels;
 using MvcCadeteria.Repositorio;
 using AutoMapper;
-using Microsoft.AspNetCore.Session;//paquete 1  para usar sesiones
-using Microsoft.AspNetCore.Http;// paquete 2 para usar sesiones
+//using Microsoft.AspNetCore.Session;//paquete 1  para usar sesiones
+//using Microsoft.AspNetCore.Http;// paquete 2 para usar sesiones
 using Microsoft.AspNetCore.Authorization;
 namespace MvcCadeteria.Controllers;
 
@@ -17,7 +13,6 @@ namespace MvcCadeteria.Controllers;
 [Authorize(Roles = "Administrador")]
 public class CadetesController : Controller
 {
-    //public const string SessionKeyName = "_Name";
     private readonly IMapper _mappeo;
     private readonly MiRepositorioCadete _repoCadete;
 
@@ -30,21 +25,20 @@ public class CadetesController : Controller
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ GET: Listado Cadetes
     public IActionResult Index()
     {
-        List<CdtViewModel> nuevo = _mappeo.Map<List<CdtViewModel>>(_repoCadete.getCadetes());
-        return nuevo != null ? 
-                        View(nuevo) :
+        List<CdtViewModel> listaCdt = _mappeo.Map<List<CdtViewModel>>(_repoCadete.getCadetes());
+        return listaCdt != null ? 
+                        View(listaCdt) :
                         Problem("La lista de cadete es null.");
     }
-    // ************************************************************ GET: Detalles Cadete
-    public IActionResult Details(int id)
+    // ************************************************************ GET: Informacion Cadete
+    public IActionResult Info(int id)
     {
         if(_repoCadete.getCadete(id) == null) return NotFound();
-        CdtViewModel? nuevo = _mappeo.Map<CdtViewModel>(_repoCadete.getCadete(id));
-        if (nuevo == null) return NotFound();
-        return View(nuevo);
+        CdtViewModel? cdt = _mappeo.Map<CdtViewModel>(_repoCadete.getCadete(id));
+        if (cdt == null) return NotFound();
+        return View(cdt);
     }
     //**************************************************************  GET: Crear Cadete
-    //[Authorize(Roles = "Administrador")]
     public IActionResult Create()
     {
         return View(new AltaCdtViewModel());
@@ -56,39 +50,28 @@ public class CadetesController : Controller
     {
         if (ModelState.IsValid)
         {
-            if(_repoCadete.altaCadete(newCdt)){
+            Cadete nuevoCdt = _mappeo.Map<Cadete>(newCdt);
+            if(_repoCadete.altaCadete(nuevoCdt)){
                 return RedirectToAction(nameof(Index));
             } 
         }
-        return View();
+        return View(newCdt);
     }
     //***************************************************************** GET: Editar Cadete
     public IActionResult Editar(int id)
     {
-        Cadete nuevo= _repoCadete.getCadete(id);
-        if (nuevo == null)
-        {
-            return NotFound();
-        }
-        EditarCdtViewModel? cadete = _mappeo.Map<EditarCdtViewModel>(nuevo);
-        if (cadete == null)
-        {
-            return NotFound();
-        }
-        return View(cadete);
+        EditarCdtViewModel cdt = _mappeo.Map<EditarCdtViewModel>(_repoCadete.getCadete(id));
+        if (cdt == null)return NotFound();
+        return View(cdt);
     }
     // ***************************************************************** POST: Editar Cadete
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Editar(int id, EditarCdtViewModel cadete)
     {
-        if (id != cadete.id)
-        {
-            return NotFound();
-        }
         if(ModelState.IsValid){
-            //Cadete cdtUpdate = _mappeo.Map<Cadete>(cadete);
-            if ( _repoCadete.updateCadete(cadete)){
+            Cadete cdt = _mappeo.Map<Cadete>(cadete);
+            if ( _repoCadete.updateCadete(cdt)){
                
                 return RedirectToAction(nameof(Index));
             }else{
@@ -100,53 +83,48 @@ public class CadetesController : Controller
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ GET: Eliminar Cadete
     public IActionResult Delete(int? id)
     {
-        Cadete? cadete=null;
-        if (id == null || _repoCadete.getCadetes() == null)
-        {
-            return NotFound();
-        }
+        EditarCdtViewModel? cadete=null;
+        if (id == null || _repoCadete.getCadetes() == null)return NotFound();
         var buscaCadete =   from cdt in _repoCadete.getCadetes()
-                            where cdt.getId()==id
+                            where cdt.cdt_id==id
                             select cdt;
         if ((buscaCadete.Count())!=0){
             foreach (var item in buscaCadete)
             {
-                if(item.getId()==id)cadete=item;
+                if(item.cdt_id==id){
+                    cadete=_mappeo.Map<EditarCdtViewModel>(item);
+                }
             }
         }else{
             return NotFound();
         }
         return View(cadete);
     }
-
-    // POST: Cadetes/Delete/5
+    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ POST: Eliminar Cadete
     [HttpPost, ActionName("Delete")]
     public IActionResult DeleteConfirmed(int id)
     {
-        Cadete? eliminar=null;
+        Cadete? eliminar_cdt=null;
         if (_repoCadete.getCadetes() == null)
         {
-            return Problem("Entity set 'MvcCadeteriaContext.Cadete'  is null.");
+            return Problem("La lista de cadetes es nula.");
         }
         var buscaCadete =   from cdt in _repoCadete.getCadetes()
-                            where cdt.getId()==id
+                            where cdt.cdt_id==id
                             select cdt;
         if ((buscaCadete.Count())!=0){
             foreach (var item in buscaCadete)
             {
-                if (item.getId()==id)
+                if (item.cdt_id==id)
                 {
-                    eliminar=item;
+                    eliminar_cdt=item;
                 }
             }
-            if(_repoCadete.getCadetes().Remove(eliminar!)){
-                //string archivo = "listaCadetes.csv";
-                //HelperDeArchivos.GuardarCSV(archivo,_repoCadete.getCadetes(),_repoCadete.getCadeteria());
-                Console.WriteLine(" eliminaDO");
+            if(_repoCadete.deleteCadete(eliminar_cdt!.cdt_id)){
+                return RedirectToAction(nameof(Index));
             }else{
-                Console.WriteLine("fallo eliminacion");
+                return View(_mappeo.Map<EditarCdtViewModel>(eliminar_cdt));
             }
-            return RedirectToAction(nameof(Index));
         }else{
             return NotFound();
         }

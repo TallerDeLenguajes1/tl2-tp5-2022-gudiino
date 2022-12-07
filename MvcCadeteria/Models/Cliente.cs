@@ -1,17 +1,24 @@
 using System;
 namespace MvcCadeteria.Models {
-    public class Cliente:Persona {
-        private string detalle_direccion {get; set;}//sobre la ubicacion de la casa
-        public Cliente(int iden, string nom, string dir,int num, string tel, string dirREf):base(iden, nom, dir, num, tel){
-            detalle_direccion=dirREf;
+    public class Cliente{
+        private int id {get; set;}
+        private string nombre {get; set;}
+        private string direccion {get; set;}
+        private string telefono {get; set;}
+        private string ref_domicilio {get; set;}
+
+        public int cli_id { get => id; set => id = value; }
+        public string cli_nombre{ get => nombre; set => nombre = value;}
+        public string cli_domicilio {get => direccion; set => direccion = value;}
+        public string cli_telefono {get => telefono; set => telefono = value;}
+        public string detalle_direccion {get => ref_domicilio; set => ref_domicilio = value;}//sobre la ubicacion de la casa
+
+        public Cliente(int iden, string nom, string dir, string tel, string dirREf){
+            this.id = iden;
+            this.nombre = nom;
+            this.direccion = dir;
+            this.telefono = tel;
+            this.ref_domicilio=dirREf;
         }
-        public Cliente(Cliente cl):base(cl.id, cl.nombre, cl.calle, cl.numero, cl.telefono){
-            detalle_direccion=cl.detalle_direccion;
-        }
-        // public void listar_info_cliente(){
-        //     Console.WriteLine("Id     |Nombre      |Calle              |Numero       |Telefono");
-        //     listar_info_persona();
-        //     Console.WriteLine("Detalle Domicilio: {0}",detalle_direccion);
-        // }
     }
 }
