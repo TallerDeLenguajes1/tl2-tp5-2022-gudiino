@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MvcCadeteria.Models;
@@ -9,6 +10,7 @@ using MvcCadeteria.ViewModels;
 
 namespace MvcCadeteria.Controllers
 {
+    [Authorize]
     public class PedidosController : Controller
     {
         //private List<Pedido> listaPedidos;
@@ -19,12 +21,14 @@ namespace MvcCadeteria.Controllers
         // }
 
         // GET: Pedidos
+        [Authorize(Roles = "Administrador, Cadete")]
         public IActionResult Index()
         {
             return View(inicioDatos.getPedidos());
         }
 
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++GET: Pedidos/Detalles
+        [Authorize(Roles = "Administrador, Cadete")]
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -51,14 +55,15 @@ namespace MvcCadeteria.Controllers
         }
 
         // *****************************************************************GET: nuevo pedido
+        [Authorize(Roles = "Administrador")]
         public IActionResult Create()
         {
             return View(new AltaPd2ViewModel());
         }
 
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++POST: alta pedido
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
-
         public IActionResult Create(AltaPd2ViewModel pedido)
         {
             int mayor;

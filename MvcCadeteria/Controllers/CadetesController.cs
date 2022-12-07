@@ -10,8 +10,11 @@ using MvcCadeteria.Repositorio;
 using AutoMapper;
 using Microsoft.AspNetCore.Session;//paquete 1  para usar sesiones
 using Microsoft.AspNetCore.Http;// paquete 2 para usar sesiones
+using Microsoft.AspNetCore.Authorization;
 namespace MvcCadeteria.Controllers;
 
+//[Authorize]
+[Authorize(Roles = "Administrador")]
 public class CadetesController : Controller
 {
     //public const string SessionKeyName = "_Name";
@@ -41,6 +44,7 @@ public class CadetesController : Controller
         return View(nuevo);
     }
     //**************************************************************  GET: Crear Cadete
+    //[Authorize(Roles = "Administrador")]
     public IActionResult Create()
     {
         return View(new AltaCdtViewModel());
@@ -136,7 +140,7 @@ public class CadetesController : Controller
                 }
             }
             if(_repoCadete.getCadetes().Remove(eliminar!)){
-                string archivo = "listaCadetes.csv";
+                //string archivo = "listaCadetes.csv";
                 //HelperDeArchivos.GuardarCSV(archivo,_repoCadete.getCadetes(),_repoCadete.getCadeteria());
                 Console.WriteLine(" eliminaDO");
             }else{

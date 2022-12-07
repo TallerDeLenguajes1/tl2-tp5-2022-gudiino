@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using MvcCadeteria;
 using MvcCadeteria.Repositorio;
 
@@ -7,7 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<MiRepositorioCadete, RepositorioCadete>();
+builder.Services.AddTransient<MiRepositorioUsuario, RepositorioUsuario>();
 builder.Services.AddAutoMapper(typeof(Program));
+//builder.Services.AddHostFiltering(new Filter.VerificarSession());// corregir inicio de secion
 
 // configuracion de mi perfil de mapeo//https://www.youtube.com/watch?v=8GbkIP2uC6o
 var mapperConfig = new MapperConfiguration(m => 
@@ -25,10 +28,22 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-//********************************
+//******************************** autenticacion
+builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, config =>
+            {
+                config.AccessDeniedPath = "/Usuarios/Error";
+            });
 
 
-
+builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ADMINISTRADORES", policy => policy.RequireRole("Administrador"));
+            });
 
 var app = builder.Build();
 
@@ -43,6 +58,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
 
 app.UseAuthorization();
 
@@ -51,6 +67,6 @@ app.UseSession();
 //***********
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Usuarios}/{action=Index}/{id?}");
 
 app.Run();
