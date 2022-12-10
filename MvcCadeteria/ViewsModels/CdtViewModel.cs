@@ -1,4 +1,4 @@
-using MvcCadeteria.Models;
+
 public class CdtViewModel
 {
     public string? id { get; set; }

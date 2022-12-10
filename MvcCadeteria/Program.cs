@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<MiRepositorioCadete, RepositorioCadete>();
+builder.Services.AddTransient<MiRepositorioPedido, RepositorioPedido>();
 builder.Services.AddTransient<MiRepositorioUsuario, RepositorioUsuario>();
 builder.Services.AddAutoMapper(typeof(Program));
 //builder.Services.AddHostFiltering(new Filter.VerificarSession());// corregir inicio de secion

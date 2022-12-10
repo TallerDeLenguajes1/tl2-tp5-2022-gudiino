@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.ComponentModel.DataAnnotations;
 
-namespace MvcCadeteria.ViewModels
+namespace MvcCadeteria.ViewsModels
 {
     public class AltaCdtViewModel
     {

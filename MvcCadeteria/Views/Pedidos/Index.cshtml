@@ -1,4 +1,5 @@
-@model List<Pedido>
+
+@model List<Pd2ViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -21,9 +22,9 @@
             <th>
                 <p>Id Cliente</p>
             </th>
-           <!-- <th>
+            <th>
                 <p>Id Cadete</p>
-            </th>-->
+            </th>
             <th>
                 <p>Estado Pedido</p>
             </th>
@@ -34,22 +35,24 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                <p>@item.id_pedido</p>
+                <p>@item.id_pd2</p>
             </td>
             <td>
-                <p>@item.detalle_pedido</p>
+                <p>@item.obs</p>
             </td>
             <td>
-                <p>@item.cliente_pedido.getId()</p>
-            </td>
-            
-            <td>
-                <p>@item.estado_pedido</p>
+                <p>@item.id_cli</p>
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id_pedido">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.id_pedido">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.id_pedido">Eliminar</a>
+                <p>@item.id_cdt</p>
+            </td>
+            <td>
+                <p>@item.estado</p>
+            </td>
+            <td>
+                <a asp-action="Detalle" asp-route-id="@item.id_pd2">Detalles</a> |
+                <a asp-action="Edit" asp-route-id="@item.id_pd2">Editar</a> |
+                <a asp-action="Delete" asp-route-id="@item.id_pd2">Eliminar</a>
             </td>
         </tr>
 }

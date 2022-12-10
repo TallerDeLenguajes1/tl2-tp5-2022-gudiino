@@ -1,12 +1,13 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using MvcCadeteria.Models;
-using MvcCadeteria.ViewModels;
 using MvcCadeteria.Repositorio;
 using AutoMapper;
 //using Microsoft.AspNetCore.Session;//paquete 1  para usar sesiones
 //using Microsoft.AspNetCore.Http;// paquete 2 para usar sesiones
 using Microsoft.AspNetCore.Authorization;
+using MvcCadeteria.ViewsModels;
+
 namespace MvcCadeteria.Controllers;
 
 //[Authorize]

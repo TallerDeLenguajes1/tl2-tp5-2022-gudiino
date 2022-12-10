@@ -1,56 +1,48 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using MvcCadeteria.Models;
-using MvcCadeteria.ViewModels;
+using MvcCadeteria.Repositorio;
+using MvcCadeteria.ViewsModels;
 
 namespace MvcCadeteria.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class PedidosController : Controller
     {
-        //private List<Pedido> listaPedidos;
-        private Cadeteria inicioDatos = new Cadeteria();
-        // public PedidosController()
-        // {
-        //     listaPedidos = new List<Pedido>();
-        // }
+        private readonly IMapper _mappeo;
+        private readonly MiRepositorioPedido _repoPedido;
 
+        public PedidosController(IMapper mappeo, MiRepositorioPedido repoPedido)
+        {
+            _mappeo = mappeo;
+            _repoPedido = repoPedido;
+        }
+        // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++GET: listar pedidos
         // GET: Pedidos
         [Authorize(Roles = "Administrador, Cadete")]
         public IActionResult Index()
         {
-            return View(inicioDatos.getPedidos());
+            List<Pd2ViewModel> listaPd2 = _mappeo.Map<List<Pd2ViewModel>>(_repoPedido.getPedidos());
+            return View(listaPd2);
         }
-
-        // ++++++++++++++++++++++++++++++++++++++++++++++++++++GET: Pedidos/Detalles
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++GET: Pedidos/Detalles
         [Authorize(Roles = "Administrador, Cadete")]
-        public IActionResult Details(int? id)
+        public IActionResult Detalle(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null)return NotFound();
             Pedido? pedido = null;
-            var buscaPedido =  from pd2 in inicioDatos.getPedidos()
-                            where pd2.id_pedido==id
+            var buscaPedido =  from pd2 in _repoPedido.getPedidos()
+                            where pd2.id_pd2==id
                             select pd2;
             if ((buscaPedido.Count())!=0){
-                foreach (var item in inicioDatos.getPedidos())
+                foreach (var item in buscaPedido)
                 {
-                    if(item.id_pedido==id)pedido=item;
+                    if(item.id_pd2==id)pedido=item;
                 }
             }
-            if (pedido == null)
-            {
-                return NotFound();
-            }
-
+            if (pedido == null)return NotFound();
             return View(pedido);
         }
 
@@ -62,142 +54,127 @@ namespace MvcCadeteria.Controllers
         }
 
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++POST: alta pedido
-        [Authorize(Roles = "Administrador")]
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Create(AltaPd2ViewModel pedido)
         {
-            int mayor;
-            if (inicioDatos.getClientes().Count==0)
-            {
-                mayor=0;
-            }else{
-                mayor = inicioDatos.getClientes().Max(x => x.getId());
-            }
-            int mayor2;
-            if (inicioDatos.getClientes().Count==0)
-            {
-                mayor2=0;
-            }else{
-                mayor2 = inicioDatos.getPedidos().Max(x => x.id_pedido);
-            } 
             if (ModelState.IsValid)
             {
-                
-                Cliente nuevoCliente= new Cliente(mayor+1,pedido.nombre_cliente!,pedido.Direccion!,pedido.Numero,pedido.Telefono!,pedido.detalle_direccion!);
-                inicioDatos.getClientes().Add(nuevoCliente);
-                Pedido nuevoPedido=new Pedido(mayor2+1,pedido.detalle_pedido!,pedido.estado_pedido!,nuevoCliente);
-                inicioDatos.getPedidos().Add(nuevoPedido);
-                return RedirectToAction(nameof(Index));
+                //Cliente(int iden, string nom, string dir, string tel, string dirREf)
+                Pedido? newPd2=null;
+                if(_repoPedido.altaPedido(newPd2!)){
+                    return RedirectToAction(nameof(Index));
+                } 
             }
-            return View(pedido);
+        return View(pedido);
         }
 
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++GET: Pedidos/Editar
-        public IActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        // public IActionResult Edit(int? id)
+        // {
+        //     if (id == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            Pedido? pedido = null;
-            var buscaPedido =  from pd2 in inicioDatos.getPedidos()
-                            where pd2.id_pedido==id
-                            select pd2;
-            if ((buscaPedido.Count())!=0){
-                foreach (var item in inicioDatos.getPedidos())
-                {
-                    if(item.id_pedido==id)pedido=item;
-                }
-            }
-            if (pedido == null)
-            {
-                return NotFound();
-            }
-            return View(pedido);
-        }
+        //     Pedido? pedido = null;
+        //     var buscaPedido =  from pd2 in inicioDatos.getPedidos()
+        //                     where pd2.id_pedido==id
+        //                     select pd2;
+        //     if ((buscaPedido.Count())!=0){
+        //         foreach (var item in inicioDatos.getPedidos())
+        //         {
+        //             if(item.id_pedido==id)pedido=item;
+        //         }
+        //     }
+        //     if (pedido == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     return View(pedido);
+        // }
 
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++POST: Pedidos/Editar
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Pedido pedido)
-        {
-            if (id != pedido.id_pedido)
-            {
-                return NotFound();
-            }
+        // [HttpPost]
+        // [ValidateAntiForgeryToken]
+        // public IActionResult Edit(int id, Pedido pedido)
+        // {
+        //     if (id != pedido.id_pedido)
+        //     {
+        //         return NotFound();
+        //     }
 
-            if (ModelState.IsValid)
-            {
-                var buscaPedido =   from pd2 in inicioDatos.getPedidos()
-                                     where pd2.id_pedido==id
-                                     select pd2;
-                if ((buscaPedido.Count())!=0){
-                    foreach (var item in buscaPedido)
-                    {
-                        if(item.id_pedido==id){
-                            item.cliente_pedido=pedido.cliente_pedido;
-                            item.detalle_pedido=pedido.detalle_pedido;
-                            item.estado_pedido=pedido.estado_pedido;
-                        }
-                    }
-                    return RedirectToAction(nameof(Index));
-                }
-            }
-            return View(pedido);
-        }
+        //     if (ModelState.IsValid)
+        //     {
+        //         var buscaPedido =   from pd2 in inicioDatos.getPedidos()
+        //                              where pd2.id_pedido==id
+        //                              select pd2;
+        //         if ((buscaPedido.Count())!=0){
+        //             foreach (var item in buscaPedido)
+        //             {
+        //                 if(item.id_pedido==id){
+        //                     item.cliente_pedido=pedido.cliente_pedido;
+        //                     item.detalle_pedido=pedido.detalle_pedido;
+        //                     item.estado_pedido=pedido.estado_pedido;
+        //                 }
+        //             }
+        //             return RedirectToAction(nameof(Index));
+        //         }
+        //     }
+        //     return View(pedido);
+        // }
 
         // *******************************************************************GET: Pedidos/eliminar
-        public IActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        // public IActionResult Delete(int? id)
+        // {
+        //     if (id == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            Pedido? pedido = null;
-            var buscaPedido =  from pd2 in inicioDatos.getPedidos()
-                            where pd2.id_pedido==id
-                            select pd2;
-            if ((buscaPedido.Count())!=0){
-                foreach (var item in inicioDatos.getPedidos())
-                {
-                    if(item.id_pedido==id)pedido=item;
-                }
-            }
-            if (pedido == null)
-            {
-                return NotFound();
-            }
+        //     Pedido? pedido = null;
+        //     var buscaPedido =  from pd2 in inicioDatos.getPedidos()
+        //                     where pd2.id_pedido==id
+        //                     select pd2;
+        //     if ((buscaPedido.Count())!=0){
+        //         foreach (var item in inicioDatos.getPedidos())
+        //         {
+        //             if(item.id_pedido==id)pedido=item;
+        //         }
+        //     }
+        //     if (pedido == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            return View(pedido);
-        }
+        //     return View(pedido);
+        // }
 
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++POST: Pedido/Eliminar
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            Pedido? eliminar=null;
-            if(inicioDatos.getPedidos()==null){
-                return Problem("Entity set 'MvcCadeteriaContext.Cadete'  is null.");
-            }
-            var buscaPedido =  from pd2 in inicioDatos.getPedidos()
-                            where pd2.id_pedido==id
-                            select pd2;
-            if ((buscaPedido.Count())!=0){
-                foreach (var item in inicioDatos.getPedidos())
-                {
-                    if(item.id_pedido==id)eliminar=item;
-                }
-            }
-            if (inicioDatos.getPedidos().Remove(eliminar!))
-            {
-                return RedirectToAction(nameof(Index));
-            }else{
-                return View(id);
-            }
-        }
+        // [HttpPost, ActionName("Delete")]
+        // [ValidateAntiForgeryToken]
+        // public IActionResult DeleteConfirmed(int id)
+        // {
+        //     Pedido? eliminar=null;
+        //     if(inicioDatos.getPedidos()==null){
+        //         return Problem("Entity set 'MvcCadeteriaContext.Cadete'  is null.");
+        //     }
+        //     var buscaPedido =  from pd2 in inicioDatos.getPedidos()
+        //                     where pd2.id_pedido==id
+        //                     select pd2;
+        //     if ((buscaPedido.Count())!=0){
+        //         foreach (var item in inicioDatos.getPedidos())
+        //         {
+        //             if(item.id_pedido==id)eliminar=item;
+        //         }
+        //     }
+        //     if (inicioDatos.getPedidos().Remove(eliminar!))
+        //     {
+        //         return RedirectToAction(nameof(Index));
+        //     }else{
+        //         return View(id);
+        //     }
+        // }
 
         // private bool PedidoExists(int id)
         // {

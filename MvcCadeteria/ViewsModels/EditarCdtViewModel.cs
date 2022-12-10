@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MvcCadeteria.ViewModels
+namespace MvcCadeteria.ViewsModels
 {
     public class EditarCdtViewModel
     {

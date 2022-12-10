@@ -32,9 +32,9 @@ namespace MvcCadeteria
                 StreamW.WriteLine(cadeteria[0]+','+cadeteria[1]+','+cadeteria[2]);
                 foreach (Cadete linea in lista)
                 {
-                    string a=linea.getId().ToString();
-                    string b=linea.getNumero().ToString();
-                    StreamW.WriteLine(a+','+linea.getNom()+','+linea.getCalle()+','+b+','+linea.getTelefono());
+                    // string a=linea.getId().ToString();
+                    // string b=linea.getNumero().ToString();
+                    // StreamW.WriteLine(a+','+linea.getNom()+','+linea.getCalle()+','+b+','+linea.getTelefono());
                 }
             }//using libera los recursos 
             Fstream.Close();

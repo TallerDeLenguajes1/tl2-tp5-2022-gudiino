@@ -12,16 +12,16 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="@Model.id_pedido" />
+            <input type="hidden" asp-for="@Model.id_pd2" />
             <div class="form-group">
                 <label asp-for="@Model.detalle_pedido" class="control-label" ></label>
                 <input asp-for="@Model.detalle_pedido" class="form-control" value="@Model.detalle_pedido"/>
                 <span asp-validation-for="@Model.detalle_pedido" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.cliente_pedido.getId()" class="control-label"></label>
-                <input asp-for="@Model.cliente_pedido.getId()" class="form-control" value="@Model.cliente_pedido.getId()"/>
-                <span asp-validation-for="@Model.cliente_pedido.getId()" class="text-danger"></span>
+                <label asp-for="@Model.id_cli" class="control-label"></label>
+                <input asp-for="@Model.id_cli" class="form-control" value="@Model.id_cli"/>
+                <span asp-validation-for="@Model.id_cli" class="text-danger"></span>
             </div>
             <!--<div class="form-group">
                 <label asp-for="cadete" class="control-label"></label>

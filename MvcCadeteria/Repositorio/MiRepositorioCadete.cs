@@ -1,6 +1,5 @@
 using System;
 using MvcCadeteria.Models;
-using MvcCadeteria.ViewModels;
 
 namespace MvcCadeteria.Repositorio
 {

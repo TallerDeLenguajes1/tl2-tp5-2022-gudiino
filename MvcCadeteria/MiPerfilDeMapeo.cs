@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MvcCadeteria.Models;
-using MvcCadeteria.ViewModels;
+using MvcCadeteria.ViewsModels;
 
 namespace MvcCadeteria
 {
@@ -34,13 +34,13 @@ namespace MvcCadeteria
             .ForMember(d=> d.Telefono, o=> o.MapFrom(s=> s.cdt_telefono))
             .ForMember(d=> d.Sucursal, o=> o.MapFrom(s=> s.cdt_id_sucursal))
             .ReverseMap();
-            // CreateMap<EditarCdtViewModel, Cadete>()
-            // .ForMember(d=> d., o=> o.MapFrom(s=> s.id))
-            // .ForMember(d=> d.nombre, o=> o.MapFrom(s=> s.getNom()))
-            // .ForMember(d=> d.calle, o=> o.MapFrom(s=> s.getCalle()))
-            // .ForMember(d=> d.numero, o=> o.MapFrom(s=> s.getNumero()))
-            // .ForMember(d=> d.telefono, o=> o.MapFrom(s=> s.getTelefono()))
-            // .ReverseMap();
+            CreateMap<Pedido, Pd2ViewModel>()
+            .ForMember(d=> d.id_pd2, o=> o.MapFrom(s=> s.id_pd2))
+            .ForMember(d=> d.obs, o=> o.MapFrom(s=> s.detalle_pedido))
+            .ForMember(d=> d.id_cli, o=> o.MapFrom(s=> s.id_cli))
+            .ForMember(d=> d.id_cdt, o=> o.MapFrom(s=> s.id_cdt))
+            .ForMember(d=> d.estado, o=> o.MapFrom(s=> s.estado_pedido))
+            .ReverseMap();
         }
     }
 }
