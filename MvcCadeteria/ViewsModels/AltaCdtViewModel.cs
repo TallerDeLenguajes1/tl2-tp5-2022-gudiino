@@ -7,9 +7,6 @@ namespace MvcCadeteria.ViewsModels
     public class AltaCdtViewModel
     {
         [Required]
-        public int Id { get; set;}
-
-        [Required]
         [StringLength(100)]
         [Display(Name="Nombre Cadete")]
         public string? Nombre { get; set;}
@@ -18,9 +15,6 @@ namespace MvcCadeteria.ViewsModels
         [StringLength(100)]
         [Display(Name="Domicilio")]
         public string? Direccion { get; set;}
-
-        [Required]
-        public int Numero { get; set;}
 
         [Phone]
         public string? Telefono { get; set;}

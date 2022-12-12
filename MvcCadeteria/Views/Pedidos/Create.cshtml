@@ -16,11 +16,22 @@
                 <input asp-for="@Model.detalle_pedido" class="form-control" />
                 <span asp-validation-for="@Model.detalle_pedido" class="text-danger"></span>
             </div>
+
             <div class="form-group">
+                <label asp-for="@Model.estado_pedido" class="control-label"></label><br>
+                <input type="checkbox" asp-for="@Model.estado_pedido" value="0" checked required/> En Curso
+                 @* Asignado<br>
+                <input type="radio" asp-for="@Model.estado_pedido" class="form-control" value="1"/> Entregado<br>
+                <input type="radio" asp-for="@Model.estado_pedido" class="form-control" value="2"/> Cancelado<br>
+                <input type="radio" asp-for="@Model.estado_pedido" class="form-control" value="3"/> *@
+                <span asp-validation-for="@Model.estado_pedido" class="text-danger"></span>
+            </div>
+
+            @* <div class="form-group">
                 <label asp-for="@Model.estado_pedido" class="control-label"></label>
                 <input asp-for="@Model.estado_pedido" class="form-control" />
                 <span asp-validation-for="@Model.estado_pedido" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
                 <label asp-for="@Model.nombre_cliente" class="control-label"></label>
                 <input asp-for="@Model.nombre_cliente" class="form-control" />
@@ -32,11 +43,6 @@
                 <span asp-validation-for="@Model.Direccion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Numero" class="control-label"></label>
-                <input asp-for="@Model.Numero" class="form-control" />
-                <span asp-validation-for="@Model.Numero" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="@Model.Telefono" class="control-label"></label>
                 <input asp-for="@Model.Telefono" class="form-control" />
                 <span asp-validation-for="@Model.Telefono" class="text-danger"></span>
@@ -45,6 +51,9 @@
                 <label asp-for="@Model.detalle_direccion" class="control-label"></label>
                 <input asp-for="@Model.detalle_direccion" class="form-control" />
                 <span asp-validation-for="@Model.detalle_direccion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <p></p>
             </div>
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" />

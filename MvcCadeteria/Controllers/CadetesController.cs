@@ -34,8 +34,8 @@ public class CadetesController : Controller
     // ************************************************************ GET: Informacion Cadete
     public IActionResult Info(int id)
     {
-        if(_repoCadete.getCadete(id) == null) return NotFound();
-        CdtViewModel? cdt = _mappeo.Map<CdtViewModel>(_repoCadete.getCadete(id));
+        if(_repoCadete.getCadeteId(id) == null) return NotFound();
+        CdtViewModel? cdt = _mappeo.Map<CdtViewModel>(_repoCadete.getCadeteId(id));
         if (cdt == null) return NotFound();
         return View(cdt);
     }
@@ -61,7 +61,7 @@ public class CadetesController : Controller
     //***************************************************************** GET: Editar Cadete
     public IActionResult Editar(int id)
     {
-        EditarCdtViewModel cdt = _mappeo.Map<EditarCdtViewModel>(_repoCadete.getCadete(id));
+        EditarCdtViewModel cdt = _mappeo.Map<EditarCdtViewModel>(_repoCadete.getCadeteId(id));
         if (cdt == null)return NotFound();
         return View(cdt);
     }

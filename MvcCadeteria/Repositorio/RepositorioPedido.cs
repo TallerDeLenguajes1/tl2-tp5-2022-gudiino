@@ -18,7 +18,7 @@ namespace MvcCadeteria.Repositorio
                 connexion.Open();
                 using(SQLiteDataReader reader = command.ExecuteReader()){
                     while(reader.Read()){
-                        Pedido pd2 = new Pedido(reader.GetInt32(0),reader.GetString(1),reader.GetInt32(2),reader.GetInt32(3),reader.GetString(4));
+                        Pedido pd2 = new Pedido{id_pd2=reader.GetInt32(0),detalle_pedido=reader.GetString(1),id_cli=reader.GetInt32(2),id_cdt=reader.GetInt32(3),estado_pedido=reader.GetInt32(4)};
                         lista.Add(pd2);
                     }
                 }
@@ -37,7 +37,7 @@ namespace MvcCadeteria.Repositorio
                 connexion.Open();
                 using(SQLiteDataReader reader = command.ExecuteReader()){
                         while(reader.Read()){
-                        pd2 = new Pedido(reader.GetInt32(0),reader.GetString(1),reader.GetInt32(2),reader.GetInt32(3),reader.GetString(4));
+                        pd2 = new Pedido{id_pd2=reader.GetInt32(0),detalle_pedido=reader.GetString(1),id_cli=reader.GetInt32(2),id_cdt=reader.GetInt32(3),estado_pedido=reader.GetInt32(4)};
                     }
                 }
                 connexion.Close();

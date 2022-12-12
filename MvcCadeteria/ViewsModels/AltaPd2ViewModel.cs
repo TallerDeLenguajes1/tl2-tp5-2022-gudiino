@@ -11,8 +11,8 @@ namespace MvcCadeteria.ViewsModels
         public string? detalle_pedido { get; set;}
 
         [Required]
-        [StringLength(10)]
-        public string? estado_pedido { get; set;}
+        [Display(Name="Estado Inicial Pedido")]
+        public string estado_pedido { get; set;}
         //** para el cliente
         [Required]
         [StringLength(100)]
@@ -21,12 +21,10 @@ namespace MvcCadeteria.ViewsModels
 
         [Required]
         [StringLength(100)]
-        [Display(Name="Calle")]
+        [Display(Name="Domicilio")]
         public string? Direccion { get; set;}
 
         [Required]
-        public int Numero { get; set;}
-
         [Phone]
         public string? Telefono { get; set;}
 

@@ -28,7 +28,6 @@ namespace MvcCadeteria
             .ReverseMap();
 
             CreateMap<Cadete, AltaCdtViewModel>()
-            .ForMember(d=> d.Id, o=> o.MapFrom(s=> s.cdt_id))
             .ForMember(d=> d.Nombre, o=> o.MapFrom(s=> s.cdt_nombre))
             .ForMember(d=> d.Direccion, o=> o.MapFrom(s=> s.cdt_domicilio))
             .ForMember(d=> d.Telefono, o=> o.MapFrom(s=> s.cdt_telefono))
@@ -40,6 +39,10 @@ namespace MvcCadeteria
             .ForMember(d=> d.id_cli, o=> o.MapFrom(s=> s.id_cli))
             .ForMember(d=> d.id_cdt, o=> o.MapFrom(s=> s.id_cdt))
             .ForMember(d=> d.estado, o=> o.MapFrom(s=> s.estado_pedido))
+            .ReverseMap();
+            CreateMap<Pedido, AltaPd2ViewModel>()
+            .ForMember(d=> d.detalle_pedido, o=> o.MapFrom(s=> s.detalle_pedido))
+            .ForMember(d=> d.estado_pedido, o=> o.MapFrom(s=> s.estado_pedido))
             .ReverseMap();
         }
     }

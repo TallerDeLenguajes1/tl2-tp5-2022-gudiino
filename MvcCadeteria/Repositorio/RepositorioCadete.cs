@@ -18,7 +18,8 @@ namespace MvcCadeteria.Repositorio
                 connexion.Open();
                 using(SQLiteDataReader reader = command.ExecuteReader()){
                     while(reader.Read()){
-                        Cadete nuevo = new Cadete(reader.GetInt32(0),reader.GetString(1),reader.GetString(2),reader.GetString(3),reader.GetInt32(4));
+                        //Cadete nuevo = new Cadete(reader.GetInt32(0),reader.GetString(1),reader.GetString(2),reader.GetString(3),reader.GetInt32(4));
+                        Cadete nuevo = new Cadete{cdt_id=reader.GetInt32(0),cdt_nombre=reader.GetString(1),cdt_domicilio=reader.GetString(2),cdt_telefono=reader.GetString(3),cdt_id_sucursal=reader.GetInt32(4)};
                         lista.Add(nuevo);
                     }
                 }
@@ -27,7 +28,7 @@ namespace MvcCadeteria.Repositorio
             return lista;
         }
          // **************************************************************************
-        public Cadete getCadete(int id)
+        public Cadete getCadeteId(int id)
         {
             Cadete? cdt= null;
             string CadenaDeConsulta = "SELECT * FROM cadetes WHERE id_cadete="+id;
@@ -37,13 +38,31 @@ namespace MvcCadeteria.Repositorio
                 connexion.Open();
                 using(SQLiteDataReader reader = command.ExecuteReader()){
                         while(reader.Read()){
-                        cdt = new Cadete(reader.GetInt32(0),reader.GetString(1),reader.GetString(2),reader.GetString(3),reader.GetInt32(4));
+                        cdt = new Cadete{cdt_id=reader.GetInt32(0),cdt_nombre=reader.GetString(1),cdt_domicilio=reader.GetString(2),cdt_telefono=reader.GetString(3),cdt_id_sucursal=reader.GetInt32(4)};
                     }
                 }
                 connexion.Close();
             }
             return cdt!;
         }
+         // **************************************************************************
+        // public Cadete getCadeteNom(string nom)
+        // {
+        //     Cadete? cdt= null;
+        //     string CadenaDeConsulta = "SELECT * FROM cadetes WHERE nombre='"+nom+"'";
+        //     using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
+        //     {
+        //         SQLiteCommand command = new SQLiteCommand(CadenaDeConsulta,connexion);
+        //         connexion.Open();
+        //         using(SQLiteDataReader reader = command.ExecuteReader()){
+        //                 while(reader.Read()){
+        //                 cdt = new Cadete{cdt_id=reader.GetInt32(0),cdt_nombre=reader.GetString(1),cdt_domicilio=reader.GetString(2),cdt_telefono=reader.GetString(3),cdt_id_sucursal=reader.GetInt32(4)};
+        //             }
+        //         }
+        //         connexion.Close();
+        //     }
+        //     return cdt!;
+        // }
         //******************************************************************************
         public bool altaCadete(Cadete cdt)
         {//id es autonumerico
@@ -107,18 +126,18 @@ namespace MvcCadeteria.Repositorio
             return num_eliminado>0;
         }
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        public int ultimoIdPersona()
-        {
-            int IdBuscado;
-            string CadenaDeConsulta = "SELECT MAX(id_cadete) FROM cadetes";
-            using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
-            {
-                SQLiteCommand command = new SQLiteCommand(CadenaDeConsulta,connexion);
-                connexion.Open();
-                IdBuscado=Convert.ToInt32(command.ExecuteScalar());
-                connexion.Close();
-            }
-            return IdBuscado;
-        }
+        // public int ultimoIdPersona()
+        // {
+        //     int IdBuscado;
+        //     string CadenaDeConsulta = "SELECT MAX(id_cadete) FROM cadetes";
+        //     using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
+        //     {
+        //         SQLiteCommand command = new SQLiteCommand(CadenaDeConsulta,connexion);
+        //         connexion.Open();
+        //         IdBuscado=Convert.ToInt32(command.ExecuteScalar());
+        //         connexion.Close();
+        //     }
+        //     return IdBuscado;
+        // }
     }
 }

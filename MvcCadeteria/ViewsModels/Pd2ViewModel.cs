@@ -9,6 +9,6 @@ public class Pd2ViewModel
 
     public int id_cdt { get; set; }
 
-    public string? estado { get; set; }
+    public int estado { get; set; }
     
 }

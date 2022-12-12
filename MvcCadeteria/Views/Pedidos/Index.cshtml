@@ -1,11 +1,10 @@
-
 @model List<Pd2ViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Listado de Pedidos</h1>
 
 <p>
     <a asp-action="Create">Alta Pedido</a>
@@ -28,7 +27,9 @@
             <th>
                 <p>Estado Pedido</p>
             </th>
-            <th></th>
+            <th>
+                <p>Acción</p>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -44,10 +45,15 @@
                 <p>@item.id_cli</p>
             </td>
             <td>
-                <p>@item.id_cdt</p>
+                @if(item.id_cdt==0)
+                {
+                    <a asp-action="AsignarCdt" asp-route-id="@item.id_pd2">Agregar Cadete</a>
+                }else{
+                    <p>@item.id_cdt</p>
+                }
             </td>
             <td>
-                <p>@item.estado</p>
+                <p>@Enum.GetName(typeof(Pedido.Estados),item.estado)</p>
             </td>
             <td>
                 <a asp-action="Detalle" asp-route-id="@item.id_pd2">Detalles</a> |

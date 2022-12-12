@@ -5,22 +5,22 @@ namespace MvcCadeteria.Models {
         private string obs_pedido {get; set;}
         private int id_cliente {get; set;}
         private int id_cadete {get; set;}
-        //public enum Estados{EnCurso,Asignado,Entregado,Cancelado,Extraviado};
-        private string estado {get; set;}
+        public enum Estados{EnCurso,Asignado,Entregado,Cancelado};
+        private int estado {get; set;}
         //metodos de acceso a propiedades
         public int id_pd2 { get => id_pedido; set => id_pedido = value; }
         public string detalle_pedido { get => obs_pedido; set => obs_pedido=value;}
         public int id_cli { get => id_cliente; set => id_cliente = value; }
         public int id_cdt { get => id_cadete; set => id_cadete = value; }
-        public string estado_pedido {get => estado; set => estado=value;}
-
-        public Pedido(int numPd2, string obs, int numCli, int numCdt, string estado){
-            this.id_pedido=numPd2;
-            this.obs_pedido=obs;
-            this.id_cliente=numCli;
-            this.id_cadete=numCdt;
-            this.estado=estado;
-        }
+        public int estado_pedido {get => estado; set => estado=value;}
+        
+        // public Pedido(int numPd2, string obs, int numCli, int numCdt, string estado){
+        //     this.id_pedido=numPd2;
+        //     this.obs_pedido=obs;
+        //     this.id_cliente=numCli;
+        //     this.id_cadete=numCdt;
+        //     this.estado=estado;
+        // }
         // public void listar_info_pedido(){
         //     Console.WriteLine("DATOS PEDIDO");
         //     Console.WriteLine("Numero de pedido: {0}",IDpedido);

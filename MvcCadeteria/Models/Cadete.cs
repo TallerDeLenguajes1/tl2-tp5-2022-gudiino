@@ -13,13 +13,13 @@ namespace MvcCadeteria.Models {
         public string cdt_telefono {get => telefono; set => telefono = value;}
         public int cdt_id_sucursal {get => id_cadeteria; set => id_cadeteria = value;}
 
-        public Cadete(int id, string nom, string dir, string tel, int cdteria){
-            this.id_cadete = id;
-            this.nombre = nom;
-            this.direccion = dir;
-            this.telefono = tel;
-            this.id_cadeteria = cdteria;
-        }
+        // public Cadete(int id, string nom, string dir, string tel, int cdteria){
+        //     this.id_cadete = id;
+        //     this.nombre = nom;
+        //     this.direccion = dir;
+        //     this.telefono = tel;
+        //     this.id_cadeteria = cdteria;
+        // }
         
         // public float jornalAcobrar(){
         //     return CantidadPedidos()*Cadeteria.pago_x_entrega;

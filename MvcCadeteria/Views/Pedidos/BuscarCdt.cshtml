@@ -1,0 +1,93 @@
+@model Pd2ViewModel
+
+@{
+    ViewData["Title"] = "Pedido | Cadete";
+}
+
+<h1>@ViewBag.estado:</h1>
+
+<div>
+    <h4></h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            <p>ID Pedido</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.id_pd2</p>
+        </dd>
+        <dt class = "col-sm-2">
+            <p>Observacion Pedido</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.obs</p>
+        </dd>
+        <dt class = "col-sm-2">
+            <p>Id Cliente</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.id_cli</p>
+        </dd>
+       <!-- <dt class = "col-sm-2">
+            Html.DisplayNameFor(model => model.cadete)
+        </dt>
+        <dd class = "col-sm-10">
+            Html.DisplayFor(model => model.cadete)
+        </dd>-->
+        <dt class = "col-sm-2">
+            <p>Estado Pedido</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Enum.GetName(typeof(Pedido.Estados),Model.estado)</p>
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <form asp-controller="Pedido" asp-action="BuscarCadete">
+        
+    </form>
+</div>
+<h3>LISTADO DE CADETES</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <p>Id</p>
+            </th>
+            <th>
+                <p>Nombres</p>
+            </th>
+            <th>
+                <p>Domicilio</p>
+            </th>
+            <th>
+                <p>Telefono</p>
+            </th>
+            <th>
+                <p>Acción</p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in ViewBag.listCdt) {
+        <tr>
+            <td>
+                <p>@item.id</p>
+            </td>
+            <td>
+                <p>@item.nombre</p>
+            </td>
+            <td>
+                <p>@item.domicilio</p>
+            </td>
+            <td>
+                <p>@item.telefono</p>
+            </td>
+            <td>
+                <a asp-action="Info" asp-route-id="@item.id">Seleccionar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

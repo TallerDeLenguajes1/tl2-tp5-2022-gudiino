@@ -1,0 +1,62 @@
+@model Pd2ViewModel
+
+@{
+    ViewData["Title"] = "Pedido | Cadete";
+}
+
+<h1>@ViewBag.estado:</h1>
+
+<div>
+    <h4></h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            <p>ID Pedido</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.id_pd2</p>
+        </dd>
+        <dt class = "col-sm-2">
+            <p>Observacion Pedido</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.obs</p>
+        </dd>
+        <dt class = "col-sm-2">
+            <p>Id Cliente</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Model.id_cli</p>
+        </dd>
+       <!-- <dt class = "col-sm-2">
+            Html.DisplayNameFor(model => model.cadete)
+        </dt>
+        <dd class = "col-sm-10">
+            Html.DisplayFor(model => model.cadete)
+        </dd>-->
+        <dt class = "col-sm-2">
+            <p>Estado Pedido</p>
+        </dt>
+        <dd class = "col-sm-10">
+            <p>@Enum.GetName(typeof(Pedido.Estados),Model.estado)</p>
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <form asp-controller="Pedidos" asp-action="BuscarCdt">
+        <input type="hidden" asp-for="@Model.id_pd2" />
+        <p>
+            Nombre Cadete: <input type="text" name="nombre" />
+            <input type="submit" value="Buscar" />
+        </p>
+        <p>
+            ID Cadete: <input type="number" name="id_cdt" />
+            <input type="submit" value="Buscar" />
+        </p>
+    </form>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.id_pd2">Editar Pedido</a> |
+    <a asp-action="Index">Volver</a>
+</div>

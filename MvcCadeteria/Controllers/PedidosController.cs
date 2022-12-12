@@ -13,11 +13,15 @@ namespace MvcCadeteria.Controllers
     {
         private readonly IMapper _mappeo;
         private readonly MiRepositorioPedido _repoPedido;
+        private readonly MiRepositorioCliente _repoCliente;
+        private readonly MiRepositorioCadete _repoCadete;
 
-        public PedidosController(IMapper mappeo, MiRepositorioPedido repoPedido)
+        public PedidosController(IMapper mappeo, MiRepositorioPedido repoPedido, MiRepositorioCliente repoCliente,MiRepositorioCadete repoCadete)
         {
             _mappeo = mappeo;
             _repoPedido = repoPedido;
+            _repoCliente = repoCliente;
+            _repoCadete = repoCadete;
         }
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++GET: listar pedidos
         // GET: Pedidos
@@ -61,14 +65,50 @@ namespace MvcCadeteria.Controllers
             if (ModelState.IsValid)
             {
                 //Cliente(int iden, string nom, string dir, string tel, string dirREf)
-                Pedido? newPd2=null;
+                Pedido? newPd2= _mappeo.Map<Pedido>(pedido);
+                Cliente verif_cli = _repoCliente.getClienteNomDir(pedido.nombre_cliente!,pedido.Direccion!);
+                if(verif_cli==null){
+                    verif_cli=new Cliente{cli_nombre=pedido.nombre_cliente!,cli_domicilio=pedido.Direccion!,cli_telefono=pedido.Telefono!,cli_detalle_direccion=pedido.detalle_direccion!};
+                    _repoCliente.altaCliente(verif_cli);
+                    verif_cli = _repoCliente.getClienteNomDir(pedido.nombre_cliente!,pedido.Direccion!);
+                }
+                newPd2.id_cli=verif_cli.cli_id;
                 if(_repoPedido.altaPedido(newPd2!)){
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("AsignarCdt",newPd2.id_pd2);
+                    //return AsignarCdt(newPd2);
                 } 
             }
         return View(pedido);
         }
-
+        //******************************************************************* ASIGNAR CADETE A PEDIDO
+        [HttpGet]
+        public IActionResult AsignarCdt(int id)
+        {
+            Pedido nuevo = _repoPedido.getPedido(id);
+            Pd2ViewModel pedido = _mappeo.Map<Pd2ViewModel>(nuevo);
+            ViewBag.estado="Pedido Ingresado: Seleccionar Cadete";
+            return View(pedido);
+        }
+        //******************************************************************* buscar CADETE 
+        public IActionResult BuscarCdt(int id_pd2, string nombre, int id_cdt)
+        {
+            Pedido nuevo = _repoPedido.getPedido(id_pd2);
+            Pd2ViewModel pedido = _mappeo.Map<Pd2ViewModel>(nuevo);
+            List<CdtViewModel> listaCdt = _mappeo.Map<List<CdtViewModel>>(_repoCadete.getCadetes());
+            var listaCdts = from m in listaCdt
+                            select m;
+            if (!String.IsNullOrEmpty(nombre))
+            {
+                listaCdts = listaCdts.Where(s => s.nombre!.Contains(nombre));
+            }
+            if (id_cdt!=0)
+            {
+                listaCdts = listaCdts.Where(s => s.id!.Contains(id_cdt.ToString()));
+            }
+            ViewBag.listCdt=listaCdts;
+            ViewBag.estado="Pedido Ingresado: Seleccionar Cadete";
+            return View(pedido);
+        }
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++GET: Pedidos/Editar
         // public IActionResult Edit(int? id)
         // {

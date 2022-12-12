@@ -15,6 +15,7 @@ namespace MvcCadeteria.ViewsModels
 
         [Required]
         [StringLength(16)]
+        [DataType(DataType.Password)]
         [Display(Name="Contraseña")]
         public string? pass_u { get; set;}
     }
