@@ -5,5 +5,24 @@
 
 <div class="text-center">
     <h1 class="display-4">BIENVENIDO</h1>
-    <p>Sitio contruido por @Context.User.Identity!.Name. <a href="https://github.com/TallerDeLenguajes1/tl2-tp5-2022-gudiino.git">Clik aquí para ir al Repositorio</a>.</p>
+    
+    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <ul class="flex-grow-1 ul-menu">
+            <li class="li-menu">
+                <a class="a-link" asp-area="" asp-controller="Cadetes" asp-action="Index">Cadetes</a>
+            </li>
+            <li class="li-menu">
+                <a class="a-link" asp-area="" asp-controller="Pedidos" asp-action="Index">Pedidos</a>
+            </li>
+            <li class="li-menu">
+                <a class="a-link" asp-area="" asp-controller="Home" asp-action="Privacy">Pedidos por Cadete</a>
+            </li>
+            <li class="li-menu">
+                <a class="a-link" asp-area="" asp-controller="Home" asp-action="Privacy">Pedidos por Cliente</a>
+            </li>
+            <li class="li-menu">
+                <a class="a-link" asp-area="" asp-controller="Usuarios" asp-action="Logout">Cerrar Sesión</a>
+            </li>
+        </ul>
+    </div>
 </div>

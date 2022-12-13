@@ -26,11 +26,81 @@ namespace MvcCadeteria.Repositorio
             }
             return lista;
         }
+        // **************************************************************************
+        public List<Pedido> GetAllPd2CliCdt()
+        {
+            List<Pedido> lista = new List<Pedido>();
+            string CadenaDeConsulta = "SELECT * FROM pedidos INNER JOIN clientes USING(id_cliente) LEFT JOIN cadetes USING(id_cadete)";
+            using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
+            {
+                SQLiteCommand command = new SQLiteCommand(CadenaDeConsulta,connexion);
+                connexion.Open();
+                using(SQLiteDataReader reader = command.ExecuteReader()){
+                    while(reader.Read()){
+                        Pedido pd2 = new Pedido{id_pd2=reader.GetInt32(0),detalle_pedido=reader.GetString(1),id_cli=reader.GetInt32(2),id_cdt=reader.GetInt32(3),estado_pedido=reader.GetInt32(4)};
+
+                        pd2.cli_pd2=new Cliente{cli_id=reader.GetInt32(2),cli_nombre=reader.GetString(5),cli_domicilio=reader.GetString(6),cli_telefono=reader.GetString(7),cli_detalle_direccion=reader.GetString(8)};
+
+                        if (pd2.id_cdt!=0)
+                        {
+                            pd2.cdt_pd2 = new Cadete{cdt_id=reader.GetInt32(3),cdt_nombre=reader.GetString(9),cdt_domicilio=reader.GetString(10),cdt_telefono=reader.GetString(11),cdt_id_sucursal=reader.GetInt32(12)};
+                        }  
+
+                        lista.Add(pd2);
+                    }
+                }
+                connexion.Close();
+            }
+            return lista;
+        }
          // **************************************************************************
-        public Pedido getPedido(int id)
+        public Pedido getPedidoId(int id)
         {
             Pedido? pd2= null;
             string CadenaDeConsulta = "SELECT * FROM pedidos WHERE id_pedido="+id;
+            using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
+            {
+                SQLiteCommand command = new SQLiteCommand(CadenaDeConsulta,connexion);
+                connexion.Open();
+                using(SQLiteDataReader reader = command.ExecuteReader()){
+                        while(reader.Read()){
+                        pd2 = new Pedido{id_pd2=reader.GetInt32(0),detalle_pedido=reader.GetString(1),id_cli=reader.GetInt32(2),id_cdt=reader.GetInt32(3),estado_pedido=reader.GetInt32(4)};
+                    }
+                }
+                connexion.Close();
+            }
+            return pd2!;
+        }
+        // **************************************************************************
+        public Pedido GetPedidoId(int id)
+        {
+            Pedido? pd2 = null;
+            string CadenaDeConsulta = "SELECT * FROM pedidos INNER JOIN clientes USING(id_cliente) LEFT JOIN cadetes USING(id_cadete) WHERE id_pedido="+id;
+            using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
+            {
+                SQLiteCommand command = new SQLiteCommand(CadenaDeConsulta,connexion);
+                connexion.Open();
+                using(SQLiteDataReader reader = command.ExecuteReader()){
+                    while(reader.Read()){
+                        pd2 = new Pedido{id_pd2=reader.GetInt32(0),detalle_pedido=reader.GetString(1),id_cli=reader.GetInt32(2),id_cdt=reader.GetInt32(3),estado_pedido=reader.GetInt32(4)};
+
+                        pd2.cli_pd2=new Cliente{cli_id=reader.GetInt32(2),cli_nombre=reader.GetString(5),cli_domicilio=reader.GetString(6),cli_telefono=reader.GetString(7),cli_detalle_direccion=reader.GetString(8)};
+
+                        if (pd2.id_cdt!=0)
+                        {
+                            pd2.cdt_pd2 = new Cadete{cdt_id=reader.GetInt32(3),cdt_nombre=reader.GetString(9),cdt_domicilio=reader.GetString(10),cdt_telefono=reader.GetString(11),cdt_id_sucursal=reader.GetInt32(12)};
+                        }
+                    }
+                }
+                connexion.Close();
+            }
+            return pd2!;
+        }
+        // **************************************************************************
+        public Pedido getPedidoObsCli(string obs,int id)
+        {
+            Pedido? pd2= null;
+            string CadenaDeConsulta = "SELECT * FROM pedidos WHERE id_cliente="+id+" AND obs_pedido='"+obs+"'";
             using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
             {
                 SQLiteCommand command = new SQLiteCommand(CadenaDeConsulta,connexion);

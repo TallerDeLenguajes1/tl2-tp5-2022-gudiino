@@ -1,0 +1,25 @@
+/*menu de navegacion*/
+
+.ul-menu {
+    list-style: none;
+    padding-left: 0.8rem; 
+  }
+  .li-menu {
+    list-style: none; 
+    background-color: #0d6efd;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    text-align: center;
+  }
+  .a-link {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    width: 100%;
+  }
+  .li-menu:hover, .li-menu:focus {
+    background-color: rgb(87, 241, 234);
+    color: white;
+  }
+  /*fin menu de navegacion*/

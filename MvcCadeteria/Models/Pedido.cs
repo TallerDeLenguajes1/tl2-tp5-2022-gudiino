@@ -7,12 +7,16 @@ namespace MvcCadeteria.Models {
         private int id_cadete {get; set;}
         public enum Estados{EnCurso,Asignado,Entregado,Cancelado};
         private int estado {get; set;}
+        private Cliente cli;
+        private Cadete cdt;
         //metodos de acceso a propiedades
         public int id_pd2 { get => id_pedido; set => id_pedido = value; }
         public string detalle_pedido { get => obs_pedido; set => obs_pedido=value;}
         public int id_cli { get => id_cliente; set => id_cliente = value; }
         public int id_cdt { get => id_cadete; set => id_cadete = value; }
         public int estado_pedido {get => estado; set => estado=value;}
+        public Cliente cli_pd2 {get => cli; set => cli=value;}
+        public Cadete cdt_pd2 {get => cdt; set => cdt=value;}
         
         // public Pedido(int numPd2, string obs, int numCli, int numCdt, string estado){
         //     this.id_pedido=numPd2;

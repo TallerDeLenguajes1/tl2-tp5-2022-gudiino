@@ -129,6 +129,5 @@ public class CadetesController : Controller
         }else{
             return NotFound();
         }
-        
     }
 }

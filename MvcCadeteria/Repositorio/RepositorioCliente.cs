@@ -90,10 +90,8 @@ namespace MvcCadeteria.Repositorio
                 //SQLiteCommand command = new SQLiteCommand(CadenaDeUpdate,connexion);
                 SQLiteCommand command = new();
                 connexion.Open();
-                command.CommandText="UPDATE clientes SET nombre=@nom, direccion=@dir, telefono=@tel, referencia_direccion=@ref_dir WHERE id_cliente=@id";
+                command.CommandText="UPDATE clientes SET telefono=@tel, referencia_direccion=@ref_dir WHERE id_cliente=@id";
                 command.Connection=connexion;
-                command.Parameters.AddWithValue("@nom",cli.cli_nombre);
-                command.Parameters.AddWithValue("@cdir",cli.cli_domicilio);
                 command.Parameters.AddWithValue("@tel",cli.cli_telefono);
                 command.Parameters.AddWithValue("@ref_dir",cli.cli_detalle_direccion);
                 command.Parameters.AddWithValue("@id",cli.cli_id);

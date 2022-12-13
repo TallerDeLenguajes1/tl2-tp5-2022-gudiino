@@ -23,17 +23,17 @@
             <p>@Model.obs</p>
         </dd>
         <dt class = "col-sm-2">
-            <p>Id Cliente</p>
+            <p>Nombre Cliente</p>
         </dt>
         <dd class = "col-sm-10">
-            <p>@Model.id_cli</p>
+            <p>@Model.cli_nom</p>
         </dd>
-       <!-- <dt class = "col-sm-2">
-            Html.DisplayNameFor(model => model.cadete)
+        <dt class = "col-sm-2">
+            <p>Nombre Cadete Actual</p>
         </dt>
         <dd class = "col-sm-10">
-            Html.DisplayFor(model => model.cadete)
-        </dd>-->
+            <p>@Model.cdt_nom</p>
+        </dd>
         <dt class = "col-sm-2">
             <p>Estado Pedido</p>
         </dt>
@@ -49,6 +49,7 @@
     </form>
 </div>
 <h3>LISTADO DE CADETES</h3>
+
 <table class="table">
     <thead>
         <tr>
@@ -57,6 +58,7 @@
             </th>
             <th>
                 <p>Nombres</p>
+            </th>
             </th>
             <th>
                 <p>Domicilio</p>
@@ -85,9 +87,17 @@
                 <p>@item.telefono</p>
             </td>
             <td>
-                <a asp-action="Info" asp-route-id="@item.id">Seleccionar</a>
+                <form asp-controller="Pedidos" asp-action="CargarCdt">
+                    <input type="hidden" asp-for="@Model.id_pd2" />
+                    <input type="hidden" type="radio" name="id_cdt" value="@item.id" checked/>
+                    <input type="submit" value="Seleccionar" />
+                </form>
+                @* <a asp-action="Info" asp-route-id="@item.id">Seleccionar</a> *@
             </td>
         </tr>
 }
     </tbody>
 </table>
+<div>
+    <a asp-action="Index" class="btn btn-primary">Volver</a>
+</div>

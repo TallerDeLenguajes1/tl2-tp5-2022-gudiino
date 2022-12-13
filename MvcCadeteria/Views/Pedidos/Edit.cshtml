@@ -1,47 +1,74 @@
-@model Pedido
+@model MvcCadeteria.ViewsModels.EditarPd2ViewModel
 
 @{
     ViewData["Title"] = "Editar";
 }
 
-<h1>Editar</h1>
-
-<h4>Pedido</h4>
+<h1>Editar información del Pedido</h1>
+<h4></h4>
 <hr />
+<p>Nota: Solo se permite cambiar detalle del pedido, el teléfono y el detalle de la dirección del cliente y cambiar cadete. Si desea modificar más datos, elimine el Pedido y genere uno nuevo.</p>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="@Model.id_pd2" />
+            <h4>Datos del Pedido</h4>
             <div class="form-group">
-                <label asp-for="@Model.detalle_pedido" class="control-label" ></label>
-                <input asp-for="@Model.detalle_pedido" class="form-control" value="@Model.detalle_pedido"/>
-                <span asp-validation-for="@Model.detalle_pedido" class="text-danger"></span>
+                <label asp-for="@Model.obs" class="control-label" ></label>
+                <input asp-for="@Model.obs" class="form-control" value="@Model.obs"/>
+                <span asp-validation-for="@Model.obs" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.id_cli" class="control-label"></label>
-                <input asp-for="@Model.id_cli" class="form-control" value="@Model.id_cli"/>
+                <input type="hidden" asp-for="@Model.estado" class="form-control" value="@Model.estado" />
+                <span asp-validation-for="@Model.estado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="@Model.id_cli" class="form-control" value="@Model.id_cli"/>
                 <span asp-validation-for="@Model.id_cli" class="text-danger"></span>
             </div>
-            <!--<div class="form-group">
-                <label asp-for="cadete" class="control-label"></label>
-                <input asp-for="cadete" class="form-control" />
-                <span asp-validation-for="cadete" class="text-danger"></span>
-            </div>-->
+            <h4>Datos del Cliente</h4>
             <div class="form-group">
-                <label asp-for="@Model.estado_pedido" class="control-label"></label>
-                <input asp-for="@Model.estado_pedido" class="form-control" value="@Model.estado_pedido" />
-                <span asp-validation-for="@Model.estado_pedido" class="text-danger"></span>
+                <label asp-for="@Model.cli_nom" class="control-label"></label>
+                <input type="hidden" asp-for="@Model.cli_nom" class="form-control" />
+                <p>@Model.cli_nom</p>
+                <span asp-validation-for="@Model.cli_nom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Direccion" class="control-label"></label>
+                <input type="hidden" asp-for="@Model.Direccion" class="form-control" />
+                <p>@Model.Direccion</p>
+                <span asp-validation-for="@Model.Direccion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Telefono" class="control-label"></label>
+                <input asp-for="@Model.Telefono" class="form-control" value="@Model.Telefono"/>
+                <span asp-validation-for="@Model.Telefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.detalle_direccion" class="control-label"></label>
+                <input asp-for="@Model.detalle_direccion" class="form-control" value="@Model.detalle_direccion"/>
+                <span asp-validation-for="@Model.detalle_direccion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <p></p>
             </div>
             <div class="form-group">
                 <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>
         </form>
+        <h4>Datos del Cadete</h4>
+        <div class="form-group">
+                <p>@Model.cdt_nom</p>
+        </div>
+        
     </div>
 </div>
-
 <div>
-    <a asp-action="Index">Volver</a>
+    <a asp-action="AsignarCdt" asp-route-id="@Model.id_pd2" class="btn btn-primary">Cambiar Cadete</a>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-primary">Volver</a>
 </div>
 
 @section Scripts {

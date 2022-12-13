@@ -7,7 +7,7 @@
 <h1>Listado de Pedidos</h1>
 
 <p>
-    <a asp-action="Create">Alta Pedido</a>
+    <a asp-action="Create" class="btn btn-primary">Alta Pedido</a>
 </p>
 <table class="table">
     <thead>
@@ -16,16 +16,16 @@
                 <p>Id Pedido</p>
             </th>
             <th>
-                <p>Observacion Pedido</p>
+                <p>Pedido</p>
             </th>
             <th>
-                <p>Id Cliente</p>
+                <p>Cliente</p>
             </th>
             <th>
-                <p>Id Cadete</p>
+                <p>Cadete</p>
             </th>
             <th>
-                <p>Estado Pedido</p>
+                <p>Estado</p>
             </th>
             <th>
                 <p>Acción</p>
@@ -42,21 +42,24 @@
                 <p>@item.obs</p>
             </td>
             <td>
-                <p>@item.id_cli</p>
+                <p>@item.cli_nom</p>
             </td>
             <td>
                 @if(item.id_cdt==0)
                 {
-                    <a asp-action="AsignarCdt" asp-route-id="@item.id_pd2">Agregar Cadete</a>
+                    <p>Sin Cadete</p>
+                    @* <a asp-action="AsignarCdt" asp-route-id="@item.id_pd2">Agregar Cadete</a> *@
                 }else{
-                    <p>@item.id_cdt</p>
+                    <p>@item.cdt_nom</p>
                 }
             </td>
             <td>
                 <p>@Enum.GetName(typeof(Pedido.Estados),item.estado)</p>
             </td>
             <td>
-                <a asp-action="Detalle" asp-route-id="@item.id_pd2">Detalles</a> |
+                <a asp-action="AsignarCdt" asp-route-id="@item.id_pd2">
+                    @if(item.id_cdt==0){<p>Agregar Cadete</p>}else{<p>Cambiar Cadete</p>}</a>
+                <a asp-action="Detalle" asp-route-id="@item.id_pd2">Info</a> |
                 <a asp-action="Edit" asp-route-id="@item.id_pd2">Editar</a> |
                 <a asp-action="Delete" asp-route-id="@item.id_pd2">Eliminar</a>
             </td>

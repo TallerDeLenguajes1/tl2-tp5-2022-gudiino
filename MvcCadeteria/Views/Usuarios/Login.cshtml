@@ -3,9 +3,10 @@
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
-<h1>@ViewData["Title"]</h1>
 
-<div class="row">
+
+<div class="form-signin w-100 m-auto">
+    <h1>@ViewData["Title"]</h1>
     <div class="col-md-4">
         <form asp-action="Login">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -20,8 +21,8 @@
                 <span asp-validation-for="@Model.pass_u" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <p color: red>@ViewBag.msg</p>
-                <p color: red>@ViewBag.Error</p>
+                <p class="text-danger2">@ViewBag.msg</p>
+                <p class="text-danger2">@ViewBag.Error</p>
             </div>
             <div class="form-group">
                 <input type="submit" value="INGRESAR" class="btn btn-primary" />

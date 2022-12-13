@@ -6,7 +6,10 @@ namespace MvcCadeteria.Repositorio
     public interface MiRepositorioPedido
     {
         public List<Pedido> getPedidos();
-        public Pedido getPedido(int id);
+        public List<Pedido> GetAllPd2CliCdt();
+        public Pedido getPedidoId(int id);
+        public Pedido GetPedidoId(int id);
+        public Pedido getPedidoObsCli(string obs,int id);
         public bool altaPedido(Pedido pd2);
         public bool updatePedido(Pedido pd2);
         public bool deletePedido(int id_pd2);

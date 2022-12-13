@@ -3,19 +3,27 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MvcCadeteria.ViewsModels
 {
-    public class AltaPd2ViewModel
-    {//para el pedido
+    public class EditarPd2ViewModel
+    {
+        //datos del pedido
+        [Required]
+        public int id_pd2 { get; set;}
+
         [Required]
         [StringLength(100)]
         [Display(Name="Detalle Pedido")]
-        public string? detalle_pedido { get; set;}
+        public string? obs { get; set;}
 
-        public int estado_pedido { get; set;}
+        public int estado { get; set;}
+
         //** para el cliente
+        [Required]
+        public int id_cli { get; set;}
+
         [Required]
         [StringLength(100)]
         [Display(Name="Nombre Cliente")]
-        public string? nombre_cliente { get; set;}
+        public string? cli_nom { get; set;}
 
         [Required]
         [StringLength(100)]
@@ -23,6 +31,7 @@ namespace MvcCadeteria.ViewsModels
         public string? Direccion { get; set;}
 
         [Required]
+        [Display(Name="Teléfono")]
         [Phone]
         public string? Telefono { get; set;}
 
@@ -30,6 +39,14 @@ namespace MvcCadeteria.ViewsModels
         [StringLength(100)]
         [Display(Name="Detalle Direccion")]
         public string? detalle_direccion { get; set;}
+
+        //** para el cadete
+        [Required]
+        public int id_cdt { get; set;}
         
+        [Required]
+        [StringLength(100)]
+        [Display(Name="Nombre Cadete")]
+        public string? cdt_nom { get; set;}
     }
 }
