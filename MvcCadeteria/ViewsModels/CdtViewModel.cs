@@ -1,4 +1,6 @@
 
+using MvcCadeteria.Models;
+
 public class CdtViewModel
 {
     public string? id { get; set; }
@@ -8,4 +10,6 @@ public class CdtViewModel
     public string? domicilio { get; set; }
 
     public string? telefono { get; set; }
+
+    public List<Pedido> lista_pd2 {get; set;}
 }

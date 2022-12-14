@@ -30,7 +30,7 @@ namespace MvcCadeteria.Repositorio
         public List<Pedido> GetAllPd2CliCdt()
         {
             List<Pedido> lista = new List<Pedido>();
-            string CadenaDeConsulta = "SELECT * FROM pedidos INNER JOIN clientes USING(id_cliente) LEFT JOIN cadetes USING(id_cadete)";
+            string CadenaDeConsulta = "SELECT * FROM pedidos INNER JOIN clientes USING(id_cliente) LEFT JOIN cadetes USING(id_cadete) ORDER BY id_cadete";
             using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
             {
                 SQLiteCommand command = new SQLiteCommand(CadenaDeConsulta,connexion);
@@ -169,18 +169,5 @@ namespace MvcCadeteria.Repositorio
             return num_eliminado>0;
         }
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        public int ultimoIdPedido()
-        {
-            int IdBuscado;
-            string CadenaDeConsulta = "SELECT MAX(id_pedido) FROM pedidos";
-            using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
-            {
-                SQLiteCommand command = new SQLiteCommand(CadenaDeConsulta,connexion);
-                connexion.Open();
-                IdBuscado=Convert.ToInt32(command.ExecuteScalar());
-                connexion.Close();
-            }
-            return IdBuscado;
-        }
     }
 }

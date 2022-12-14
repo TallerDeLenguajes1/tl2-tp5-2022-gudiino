@@ -17,6 +17,7 @@ namespace MvcCadeteria
             .ForMember(d=> d.nombre, o=> o.MapFrom(s=> s.cdt_nombre))
             .ForMember(d=> d.domicilio, o=> o.MapFrom(s=> s.cdt_domicilio))
             .ForMember(d=> d.telefono, o=> o.MapFrom(s=> s.cdt_telefono))
+            .ForMember(d=> d.lista_pd2, o=> o.MapFrom(s=> s.cdt_list_pd2))
             .ReverseMap();
             
             CreateMap<Cadete, EditarCdtViewModel>()

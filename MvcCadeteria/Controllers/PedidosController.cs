@@ -180,25 +180,61 @@ namespace MvcCadeteria.Controllers
                 return View(id);
             }
         }
-        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ pedidos por cliente
-        public IActionResult Pd2XCdt(int id_cdt, string nombre)
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ pedidos por cadetes
+        public IActionResult BuscarPd2XCdt()
         {
-            Pedido nuevo = _repoPedido.GetPedidoId(id_cdt);
-            Pd2ViewModel pedido = _mappeo.Map<Pd2ViewModel>(nuevo);
-            List<CdtViewModel> listaCdt = _mappeo.Map<List<CdtViewModel>>(_repoCadete.getCadetes());
-            var listaCdts = from m in listaCdt
+            List<Pd2ViewModel> listaPd2Cdt = _mappeo.Map<List<Pd2ViewModel>>(_repoPedido.GetAllPd2CliCdt());
+            return View(listaPd2Cdt);
+        }
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ busqueda de pedidos por cadete
+        public IActionResult BuscarCdtPd2(string? nombre, int id_cdt)
+        {
+            List<Pd2ViewModel> listaCdtPd2 = _mappeo.Map<List<Pd2ViewModel>>(_repoPedido.GetAllPd2CliCdt());
+            var listaPd2 = from m in listaCdtPd2
                             select m;
             if (!String.IsNullOrEmpty(nombre))
             {
-                listaCdts = listaCdts.Where(s => s.nombre!.Contains(nombre));
+                listaPd2 = from m in listaCdtPd2
+                            where m.cdt_nom!= null && m.cdt_nom.Contains(nombre) 
+                            select m;
+                //listaPd2 = listaPd2.Where(s => s.cdt_nom.Contains(nombre.ToString()));
             }
             if (id_cdt!=0)
             {
-                listaCdts = listaCdts.Where(s => s.id!.Contains(id_cdt.ToString()));
+                listaPd2 = listaPd2.Where(s => s.id_cdt.ToString().Contains(id_cdt.ToString()));
             }
-            ViewBag.listCdt=listaCdts;
-            ViewBag.estado="Pedido Ingresado: Buscar Cadete";
-            return View(pedido);
+            if(listaPd2.Count()==0)ViewBag.msjBuscCero= "No hay coincidencia, intente con nuevos valores.";
+            ViewBag.lista=listaPd2;
+            return View();
+        }
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ PEDIDOS POR CLIENTES
+        public IActionResult BuscarPd2XCli()
+        {
+            List<Pd2ViewModel> listaPd2Cli = _mappeo.Map<List<Pd2ViewModel>>(_repoPedido.GetAllPd2CliCdt());
+            List<Pd2ViewModel> listaPd2Cli2= listaPd2Cli.OrderBy(item => item.id_cli).ToList();
+            return View(listaPd2Cli2);
+        }
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ BUSQUEDA DE PEDIDOS POR CLIENTE
+        public IActionResult BuscarCliPd2(string? nombre, int id_cli)
+        {
+            List<Pd2ViewModel> listaCliPd2 = _mappeo.Map<List<Pd2ViewModel>>(_repoPedido.GetAllPd2CliCdt());
+            var listaPd2Cli2= listaCliPd2.OrderBy(item => item.id_cli).ToList();
+            var listaCli = from m in listaPd2Cli2
+                            select m;
+            if (!String.IsNullOrEmpty(nombre))
+            {
+                listaCli = from m in listaPd2Cli2
+                            where m.cli_nom.Contains(nombre) 
+                            select m;
+                //listaPd2 = listaPd2.Where(s => s.cdt_nom.Contains(nombre.ToString()));
+            }
+            if (id_cli!=0)
+            {
+                listaCli = listaCli.Where(s => s.id_cdt.ToString().Contains(id_cli.ToString()));
+            }
+            if(listaCli.Count()==0)ViewBag.msjBuscCero= "No hay coincidencia, intente con nuevos valores.";
+            ViewBag.listaCli=listaCli;
+            return View();
         }
 
     }

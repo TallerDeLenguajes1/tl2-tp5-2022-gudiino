@@ -1,0 +1,113 @@
+@model IEnumerable<Pd2ViewModel>
+@{
+    ViewData["Title"] = "Pedido | Cliente";
+    var cont=0;
+    var aux=0;
+    var clase="";
+}
+<h1>Listado de pedidos por Cliente</h1>
+<hr>
+<h5>Ingrese el id o nombre del Cliente:</h5>
+<div>
+    <form asp-controller="Pedidos" asp-action="BuscarCliPd2">
+        <p>
+            Nombre Cliente: <input type="text" name="nombre" />
+            <input type="submit" value="Buscar" />
+            ID Cliente: <input type="number" name="id_cli" />
+            <input type="submit" value="Buscar" />
+        </p>
+    </form>
+    <p class="text-danger2">@ViewBag.msjBuscCero</p>
+</div>
+<hr>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <p>ID Cliente</p>
+            </th>
+            <th>
+                <p>Cliente</p>
+            </th>
+            <th>
+                <p>Id Pedido</p>
+            </th>
+            <th>
+                <p>Pedido</p>
+            </th>
+            <th>
+                <p>Estado</p>
+            </th>
+            <th>
+                <p>Id Cadete</p>
+            </th>
+            <th>
+                <p>Cadete</p>
+            </th>
+            <th>
+                <p>Acción</p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in ViewBag.listaCli) {
+        <tr @{
+                if(cont==0){
+                    aux=item.id_cli;
+                    cont++;
+                }
+                if(item.id_cli!=aux){ 
+                    cont++;
+                    aux=item.id_cli;
+                }
+                if(cont%2==0){
+                    clase="distinto";
+                }else{
+                    clase="";
+                }
+            }
+        class="@clase">
+            <td>
+                <p>@item.id_cli</p>
+            </td>
+            <td>
+                <p>@item.cli_nom</p>
+            </td>
+            <td>
+                <p>@item.id_pd2</p>
+            </td>
+            <td>
+                <p>@item.obs</p>
+            </td>
+            <td>
+                <p>@Enum.GetName(typeof(Pedido.Estados),item.estado)</p>
+            </td>
+            <td>
+                @if(item.id_cdt==0)
+                {
+                    <p>-</p>
+                }else{
+                    <p>@item.id_cdt</p>
+                }
+            </td>
+            <td>
+                @if(item.id_cdt==0)
+                {
+                    <p>Sin Cadete</p>
+                }else{
+                    <p>@item.cdt_nom</p>
+                }
+            </td>
+            <td>
+                <a asp-action="Detalle" asp-route-id="@item.id_pd2">Info</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index" class="btn btn-primary">Inicio</a>
+</div>
+<div>
+    <p></p>
+</div>

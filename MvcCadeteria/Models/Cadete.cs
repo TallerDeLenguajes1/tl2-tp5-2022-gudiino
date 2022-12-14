@@ -6,12 +6,14 @@ namespace MvcCadeteria.Models {
         private string direccion {get; set;}
         private string telefono {get; set;}
         private int id_cadeteria {get; set;}
+        private List<Pedido> listaDpd2;
 
         public int cdt_id { get => id_cadete; set => id_cadete = value; }
         public string cdt_nombre{ get => nombre; set => nombre = value;}
         public string cdt_domicilio {get => direccion; set => direccion = value;}
         public string cdt_telefono {get => telefono; set => telefono = value;}
         public int cdt_id_sucursal {get => id_cadeteria; set => id_cadeteria = value;}
+        public List<Pedido> cdt_list_pd2 {get => listaDpd2; set => listaDpd2 = value;}
 
         // public Cadete(int id, string nom, string dir, string tel, int cdteria){
         //     this.id_cadete = id;

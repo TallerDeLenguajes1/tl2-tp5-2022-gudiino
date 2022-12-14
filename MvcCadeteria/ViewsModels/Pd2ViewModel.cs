@@ -12,6 +12,6 @@ public class Pd2ViewModel
     public string? detalle_direccion { get; set;}
 
     public int id_cdt { get; set; }
-    public string? cdt_nom { get; set; }
+    public string cdt_nom { get; set; }
     public string? cdt_tel { get; set;}
 }

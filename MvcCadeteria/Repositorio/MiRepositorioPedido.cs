@@ -13,6 +13,5 @@ namespace MvcCadeteria.Repositorio
         public bool altaPedido(Pedido pd2);
         public bool updatePedido(Pedido pd2);
         public bool deletePedido(int id_pd2);
-        public int ultimoIdPedido();
     }
 }
