@@ -11,6 +11,9 @@ builder.Services.AddTransient<MiRepositorioCadete, RepositorioCadete>();
 builder.Services.AddTransient<MiRepositorioCliente, RepositorioCliente>();
 builder.Services.AddTransient<MiRepositorioPedido, RepositorioPedido>();
 builder.Services.AddTransient<MiRepositorioUsuario, RepositorioUsuario>();
+builder.Services.AddTransient<MiRepositorioCadeteria, RepositorioCadeteria>();
+
+// agregar mapeador de las digerentes clases para pasar a la vista
 builder.Services.AddAutoMapper(typeof(Program));
 //builder.Services.AddHostFiltering(new Filter.VerificarSession());// corregir inicio de secion
 
@@ -21,12 +24,13 @@ var mapperConfig = new MapperConfiguration(m =>
 });
 IMapper mapper = mapperConfig.CreateMapper();
 //builder.Services.AddSingleton(mapper);
+
 //*****************************************************************  SESIONES
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(600);//timespan es un intervalo de tiempo
+    options.IdleTimeout = TimeSpan.FromSeconds(60);//timespan es un intervalo de tiempo
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
@@ -39,12 +43,14 @@ builder.Services.AddAuthentication(options =>
             }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, config =>
             {
                 config.AccessDeniedPath = "/Usuarios/Error";
+                config.LoginPath = "/Usuarios/Index";
             });
 
 
 builder.Services.AddAuthorization(options =>
             {
-                options.AddPolicy("ADMINISTRADORES", policy => policy.RequireRole("Administrador"));
+                options.AddPolicy("ADMIN", policy => policy.RequireRole("Administrador"));
+                options.AddPolicy("CDT", policy => policy.RequireRole("Cadete"));
             });
 
 var app = builder.Build();

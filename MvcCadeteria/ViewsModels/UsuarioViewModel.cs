@@ -6,10 +6,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MvcCadeteria.ViewsModels
 {
-    public class InUsuario
+    public class UsuarioViewModel
     {
         [Required]
-        [StringLength(60)]
+        [StringLength(50)]
         [Display(Name="Nombre Usuario")]
         public string? nom_u { get; set;}
 

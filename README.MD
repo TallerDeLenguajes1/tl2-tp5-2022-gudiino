@@ -28,5 +28,13 @@ Desarrollo en segunda Rama "TP6"
 
 ● Inyección de dependencias
 
+# TP8
+
+Desarrollo en segunda Rama "TP6"
+
+**OBJETIVOS**
+
+● Logueo y variables de sesión
+
 **Autor**
 ##_Jorge Juan Gudiño_

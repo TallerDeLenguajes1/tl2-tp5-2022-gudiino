@@ -154,6 +154,24 @@ namespace MvcCadeteria.Repositorio
             }
             if(valor==0){return false;}else{return true;}
         }
+        //+++++++++++++++++++++++++++++++++
+        public bool updatePedidoEsta2(int id_pd2, int estado)
+        {
+            int valor=0;
+            using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
+            {
+                //SQLiteCommand command = new SQLiteCommand(CadenaDeUpdate,connexion);
+                SQLiteCommand command = new();
+                connexion.Open();
+                command.CommandText="UPDATE pedidos SET estado=@esta2 WHERE id_pedido=@id";
+                command.Connection=connexion;
+                command.Parameters.AddWithValue("@esta2",estado);
+                command.Parameters.AddWithValue("@id",id_pd2);
+                valor=command.ExecuteNonQuery();
+                connexion.Close();
+            }
+            if(valor==0){return false;}else{return true;}
+        }
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         public bool deletePedido(int id_pd2)
         {

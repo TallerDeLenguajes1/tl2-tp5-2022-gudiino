@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "Index";
+    var cont=0;
+    int aux=0;
+    var clase="";
 }
 
 <h1>Listado de Pedidos</h1>
@@ -34,7 +37,22 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr@{
+                if(cont==0){
+                    aux=item.id_pd2;
+                    cont++;
+                }
+                if(item.id_pd2!=aux){ 
+                    cont++;
+                    aux=item.id_pd2;
+                }
+                if(cont%2==0){
+                    clase="distinto";
+                }else{
+                    clase="";
+                }
+            }
+        class="@clase">
             <td>
                 <p>@item.id_pd2</p>
             </td>

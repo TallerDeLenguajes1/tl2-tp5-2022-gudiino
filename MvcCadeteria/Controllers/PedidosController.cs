@@ -8,7 +8,7 @@ using MvcCadeteria.ViewsModels;
 
 namespace MvcCadeteria.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class PedidosController : Controller
     {
         private readonly IMapper _mappeo;
@@ -76,6 +76,7 @@ namespace MvcCadeteria.Controllers
         return View(pedido);
         }
         //******************************************************************* ASIGNAR CADETE A PEDIDO
+        [Authorize(Roles = "Administrador")]
         public IActionResult AsignarCdt(int id)
         {
             Pedido nuevo = _repoPedido.GetPedidoId(id);
@@ -84,6 +85,7 @@ namespace MvcCadeteria.Controllers
             return View(pedido);
         }
         //******************************************************************* buscar CADETE 
+        [Authorize(Roles = "Administrador")]
         public IActionResult BuscarCdt(int id_pd2, string nombre, int id_cdt)
         {
             Pedido nuevo = _repoPedido.GetPedidoId(id_pd2);
@@ -104,6 +106,7 @@ namespace MvcCadeteria.Controllers
             return View(pedido);
         }
         //******************************************************************* buscar CADETE 
+        [Authorize(Roles = "Administrador")]
         public IActionResult CargarCdt(int id_pd2, string id_cdt)
         {
             Pedido nuevo = _repoPedido.getPedidoId(id_pd2);
@@ -129,6 +132,7 @@ namespace MvcCadeteria.Controllers
             
         }
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++GET: Pedidos/Editar
+        [Authorize(Roles = "Administrador")]
         public IActionResult Edit(int id)
         {
             EditarPd2ViewModel pd2 = _mappeo.Map<EditarPd2ViewModel>(_repoPedido.GetPedidoId(id));
@@ -139,6 +143,7 @@ namespace MvcCadeteria.Controllers
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++POST: Pedidos/Editar
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Edit(int id_pd2, EditarPd2ViewModel pedido)
         {
             if (ModelState.IsValid)
@@ -155,6 +160,7 @@ namespace MvcCadeteria.Controllers
         }
 
         // *******************************************************************GET: Pedidos/eliminar
+        [Authorize(Roles = "Administrador")]
         public IActionResult Delete(int id)
         {
             EditarPd2ViewModel? pd2=null;
@@ -167,6 +173,7 @@ namespace MvcCadeteria.Controllers
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++POST: Pedido/Eliminar
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public IActionResult DeleteConfirmed(int id)
         {
             Pedido? eliminar=_repoPedido.GetPedidoId(id);
@@ -181,12 +188,14 @@ namespace MvcCadeteria.Controllers
             }
         }
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ pedidos por cadetes
+        [Authorize(Roles = "Administrador, Cadete")]
         public IActionResult BuscarPd2XCdt()
         {
             List<Pd2ViewModel> listaPd2Cdt = _mappeo.Map<List<Pd2ViewModel>>(_repoPedido.GetAllPd2CliCdt());
             return View(listaPd2Cdt);
         }
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ busqueda de pedidos por cadete
+        [Authorize(Roles = "Administrador, Cadete")]
         public IActionResult BuscarCdtPd2(string? nombre, int id_cdt)
         {
             List<Pd2ViewModel> listaCdtPd2 = _mappeo.Map<List<Pd2ViewModel>>(_repoPedido.GetAllPd2CliCdt());
@@ -208,6 +217,7 @@ namespace MvcCadeteria.Controllers
             return View();
         }
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ PEDIDOS POR CLIENTES
+        [Authorize(Roles = "Administrador")]
         public IActionResult BuscarPd2XCli()
         {
             List<Pd2ViewModel> listaPd2Cli = _mappeo.Map<List<Pd2ViewModel>>(_repoPedido.GetAllPd2CliCdt());
@@ -215,6 +225,7 @@ namespace MvcCadeteria.Controllers
             return View(listaPd2Cli2);
         }
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ BUSQUEDA DE PEDIDOS POR CLIENTE
+        [Authorize(Roles = "Administrador")]
         public IActionResult BuscarCliPd2(string? nombre, int id_cli)
         {
             List<Pd2ViewModel> listaCliPd2 = _mappeo.Map<List<Pd2ViewModel>>(_repoPedido.GetAllPd2CliCdt());
@@ -236,6 +247,62 @@ namespace MvcCadeteria.Controllers
             ViewBag.listaCli=listaCli;
             return View();
         }
-
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ CAMBIO ESTADO PEDIDO
+        [Authorize(Roles = "Administrador, Cadete")]
+        public IActionResult CbioEstadoPd2()
+        {
+            List<Pd2ViewModel> listaPd2Cli = _mappeo.Map<List<Pd2ViewModel>>(_repoPedido.GetAllPd2CliCdt());
+            return View(listaPd2Cli);
+        }
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ CAMBIO ESTADO PEDIDO BUSCADO
+        [Authorize(Roles = "Administrador, Cadete")]
+        public IActionResult CbioEstadoPd2Busca2(string nomCli, int id_cli, string nomCdt, int id_cdt)
+        {
+            bool bandera=true;
+            List<Pd2ViewModel> listaPd2CliCdt = _mappeo.Map<List<Pd2ViewModel>>(_repoPedido.GetAllPd2CliCdt());
+            var listaBusca = from m in listaPd2CliCdt
+                            select m;
+            if (!String.IsNullOrEmpty(nomCli)||!String.IsNullOrEmpty(nomCdt))
+            {
+                bandera=false;
+                if(!String.IsNullOrEmpty(nomCli)){
+                    listaBusca = listaBusca.Where(s => s.cli_nom!=null && s.cli_nom.Contains(nomCli));
+                }else{
+                    listaBusca = listaBusca.Where(s => s.cdt_nom!=null && s.cdt_nom.Contains(nomCdt));
+                }
+            }
+            if (bandera && (id_cli!=0 || id_cdt!=0))
+            {
+                if (id_cli!=0)
+                {
+                    listaBusca = listaBusca.Where(s => s.id_cli.ToString().Contains(id_cli.ToString()));
+                }else{
+                    listaBusca = listaBusca.Where(s => s.id_cdt.ToString().Contains(id_cdt.ToString()));
+                }
+            }
+            if(listaBusca.Count()==0)ViewBag.msjBuscCero= "No hay coincidencia, intente con nuevos valores.";
+            ViewBag.listaPd2Busca2=listaBusca;
+            return View();
+        }
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ SELECCION ESTADO PEDIDO
+        [Authorize(Roles = "Administrador, Cadete")]
+        public IActionResult CbioEsta2Pd2Selec(int id)
+        {
+            Pedido? pd2=_repoPedido.GetPedidoId(id);
+            EditarPd2ViewModel pd2Vm = _mappeo.Map<EditarPd2ViewModel>(pd2);
+            //if (pd2Vm == null)return NotFound();
+            return View(pd2Vm);
+        }
+        //+++++++++++++++++++++++++++++++++++++++++++++++
+        [Authorize(Roles = "Administrador, Cadete")]
+        public IActionResult CbioEsta2Pd2SelecConfirm(int id_pd2, string estado)
+        {
+            int estado2=Convert.ToInt32(estado);
+            if (_repoPedido.updatePedidoEsta2(id_pd2,estado2))
+            {
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("CbioEsta2Pd2Selec", new {id=id_pd2});
+        }
     }
 }

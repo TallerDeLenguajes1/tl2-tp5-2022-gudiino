@@ -25,10 +25,23 @@ public class HomeController : Controller
         //if(HttpContext.Session["Log_u"] == null)return RedirectToAction("Login", "Home");
         return View();
     }
-    [AuthorizeUsers(Policy = "ADMINISTRADORES")]
+    [AuthorizeUsers(Policy = "ADMIN")]
     public IActionResult Privacy()
     {
         return View();
+    }
+    //**************************************************************
+    public string usuario_visitante(){
+        if(!HttpContext.Request.Cookies.ContainsKey("IdUsuario"))
+        {
+            HttpContext.Response.Cookies.Append("IdUsuario", DateTime.Now.ToString());
+            return "Welcome, new visitor!";
+        }
+        else
+        {
+            DateTime firstRequest = DateTime.Parse(HttpContext.Request.Cookies["IdUsuario"]);
+            return "Welcome back, user! You first visited us on: " + firstRequest.ToString();
+        }
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

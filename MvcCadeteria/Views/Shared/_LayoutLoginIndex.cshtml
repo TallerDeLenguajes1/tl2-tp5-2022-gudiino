@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MvcCadeteria.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/signin.css"/>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/mystyle.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/_LayoutLoginIndex.cshtml.css"/>
 </head>
-<body>
+<body class="IndexLogin">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Web Cadeteria</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -21,25 +22,18 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cadetes" asp-action="Index">Cadetes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pedidos" asp-action="Index">Pedidos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pedidos" asp-action="BuscarPd2XCdt">Pedidos por Cadete</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pedidos" asp-action="BuscarPd2XCli">Pedidos por Cliente</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pedidos" asp-action="CbioEstadoPd2">Estado Pedido</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cadeteria" asp-action="Index">Informe</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Logout">Cerrar Sesión</a>
                         </li>
                     </ul>
                     <img class="loginImg" src="~/img/usuario_default.png"  alt="Imagen usuario">  @Context.User.Identity!.Name
@@ -53,9 +47,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer2 text-muted signin">
         <div class="container">
-            <p>&copy; 2022 - MvcCadeteria - Sitio construido por Gudiño <a href="https://github.com/TallerDeLenguajes1/tl2-tp5-2022-gudiino.git">Clik aquí para ir al Repositorio</a>.</p>
+            <p>&copy; 2022 - MvcCadeteria</p>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -4,6 +4,9 @@
 @{
     ViewData["Title"] = "Index";
     //Console.WriteLine("Id     |Nombre      |domicilio     |telefono   ");
+    var cont=0;
+    string aux="";
+    var clase="";
 }
 <p>@ViewBag.mensaje</p>
 <h1>LISTADO DE CADETES</h1>
@@ -33,7 +36,22 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr@{
+                if(cont==0){
+                    aux=item.id;
+                    cont++;
+                }
+                if(item.id!=aux){ 
+                    cont++;
+                    aux=item.id;
+                }
+                if(cont%2==0){
+                    clase="distinto";
+                }else{
+                    clase="";
+                }
+            }
+        class="@clase">
             <td>
                 <p>@item.id</p>
             </td>

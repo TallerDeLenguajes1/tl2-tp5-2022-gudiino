@@ -13,17 +13,19 @@ namespace MvcCadeteria.Filters
             //UN USUARIO ESTA COMPUESTO POR UNA IDENTIDAD Y UN PRINCIPAL
             //PODEMOS SABER EL NOMBRE DEL USUARIO O SI ESTA AUTENTICADO
             var user = context.HttpContext.User;
-            if (user.Identity!.IsAuthenticated == false)
+            if (user.Identity.IsAuthenticated == false)
             {
                 //NECESITAMOS REALIZAR LA REDIRECCION PARA 
                 //LLEVARNOS LA PETICION A LOGIN DE MANAGED
-                RouteValueDictionary rutalogin = new RouteValueDictionary(new
-                {
-                    controller = "Usuarios",
-                    action = "Index"
-                });
-                RedirectToRouteResult result = new RedirectToRouteResult(rutalogin);
-                context.Result = result;
+                // RouteValueDictionary rutalogin = new RouteValueDictionary(new
+                // {
+                //     controller = "Usuarios",
+                //     action = "Index"
+                // });
+                // RedirectToRouteResult result = new RedirectToRouteResult(rutalogin);
+                // context.Result = result;
+                context.Result = new RedirectResult("~/Usuarios/Index");
+                
             }
         }
     }

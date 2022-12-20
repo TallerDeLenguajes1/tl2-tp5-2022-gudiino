@@ -1,0 +1,115 @@
+@model List<CdtViewModel>
+
+@{
+    ViewData["Title"] = "Sucursal";
+    double total=0;
+    var cont=0;
+    string aux="";
+    var clase="";
+}
+<h1>Informacion de la Cadeteria</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <p>Nombre</p>
+            </th>
+            <th>
+                <p>Domicilio</p>
+            </th>
+            <th>
+                <p>Teléfono</p>
+            </th>
+            <th>
+                <p>Pago por entrega [$AR]</p>
+            </th>
+            <th>
+                <p>Acción</p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <p>@ViewBag.datoCdtria.nomSuc</p>
+            </td>
+            <td>
+                <p>@ViewBag.datoCdtria.direcSuc</p>
+            </td>
+            <td>
+                <p>@ViewBag.datoCdtria.telSuc</p>
+            </td>
+            <td>
+                <p>@ViewBag.datoCdtria.pagoXpd2Suc</p>
+            </td>
+            <td>
+                <a asp-action="Editar" asp-route-id="@ViewBag.datoCdtria.idSuc">Actualizar</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div>
+    <h2>Liquidación por Cadete</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <p>Id</p>
+            </th>
+            <th>
+                <p>Nombres</p>
+            </th>
+            <th>
+                <p>Teléfono</p>
+            </th>
+            <th>
+                <p>Pedidos [Entregado]</p>
+            </th>
+            <th>
+                <p>Total pago [$AR]</p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr@{
+                if(cont==0){
+                    aux=item.id;
+                    cont++;
+                }
+                if(item.id!=aux){ 
+                    cont++;
+                    aux=item.id;
+                }
+                if(cont%2==0){
+                    clase="distinto";
+                }else{
+                    clase="";
+                }
+            }
+        class="@clase">
+            <td>
+                <p>@item.id</p>
+            </td>
+            <td>
+                <p>@item.nombre</p>
+            </td>
+            <td>
+                <p>@item.telefono</p>
+            </td>
+            <td>
+                <p>@item.cantidadPd2</p>
+            </td>
+            <td>
+                <p>@{total=0;
+                    total=item.cantidadPd2*ViewBag.datoCdtria.pagoXpd2Suc;
+                    } @total</p>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+<div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Inicio</a>
+</div>

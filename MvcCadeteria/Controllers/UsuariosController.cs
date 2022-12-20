@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using MvcCadeteria.Models;
 using MvcCadeteria.Repositorio;
 using MvcCadeteria.ViewsModels;
+using Microsoft.AspNetCore.Session;//paquete 1  para usar sesiones
+using Microsoft.AspNetCore.Http;// paquete 2 para usar sesiones
 //using System.Net.Security;
 
 namespace MvcCadeteria.Controllers;
@@ -25,15 +27,17 @@ public class UsuariosController : Controller
     //****************************************************************inicio la vista de inicio de sesion
     public IActionResult Index()
     {
-        InUsuario IngresoU = new InUsuario();
+        //string? name = HttpContext.Session.GetString("Name");
+        UsuarioViewModel IngresoU = new UsuarioViewModel();
         return View(IngresoU);
     }
     //******************************************************************** logueo del usuario
     [HttpPost]
     [ValidateAntiForgeryToken]
     //public IActionResult Login(InUsuario in_u)//recepcion de los datos de logueo
-    public async Task<IActionResult> Login(InUsuario in_u)
+    public async Task<IActionResult> Login(UsuarioViewModel in_u)
     {
+        //HttpContext.Session.SetString("Name", name);
         if (ModelState.IsValid)
         {
             try
@@ -46,6 +50,11 @@ public class UsuariosController : Controller
                 }
                 else
                 {
+                    // var claims = new List<Claim>{
+                    //     new Claim(ClaimTypes.Name, usuario.log_u),
+                    //     new Claim("FullName", usuario.nom_u),
+                    //     new Claim(ClaimTypes.Role, usuario.rol_u),
+                    // };
                     //DEBEMOS CREAR UNA IDENTIDAD (name y role)
                     //Y UN PRINCIPAL
                     //DICHA IDENTIDAD DEBEMOS COMBINARLA CON LA COOKIE DE 
@@ -54,20 +63,22 @@ public class UsuariosController : Controller
                     //TODO USUARIO PUEDE CONTENER UNA SERIE DE CARACTERISTICAS
                     //LLAMADA CLAIMS.  DICHAS CARACTERISTICAS PODEMOS ALMACENARLAS
                     //DENTRO DE USER PARA UTILIZARLAS A LO LARGO DE LA APP
-                    Claim claimUserName = new Claim(ClaimTypes.Name, usuario.nom_u);
+                    Claim claimUserName = new Claim(ClaimTypes.Name, usuario.log_u);
                     Claim claimRole = new Claim(ClaimTypes.Role, usuario.rol_u);
                     Claim claimIdUsuario = new Claim("IdUsuario", usuario.id_u.ToString());
-                    Claim claimLog = new Claim("LogUsuario", usuario.log_u);
+                    Claim claimNombre = new Claim("NomUsuario", usuario.nom_u);
 
                     identity.AddClaim(claimUserName);
                     identity.AddClaim(claimRole);
                     identity.AddClaim(claimIdUsuario);
-                    identity.AddClaim(claimLog);
+                    identity.AddClaim(claimNombre);
 
                     ClaimsPrincipal userPrincipal = new ClaimsPrincipal(identity);
+
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, new AuthenticationProperties
                     {
-                        ExpiresUtc = DateTime.Now.AddMinutes(45)
+                        ExpiresUtc = DateTime.Now.AddMinutes(2)//para prueba de duracion
+                        
                     });
 
                     return RedirectToAction("Index", "Home");
@@ -101,9 +112,9 @@ public class UsuariosController : Controller
     }
     //***********************************************
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    [ResponseCache(Duration = 10, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-        return View("Error!");
+        return View("Error+++++++++++++++++++++++++++++++++++++++++!");
     }
 }

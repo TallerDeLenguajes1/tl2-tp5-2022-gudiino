@@ -126,18 +126,24 @@ namespace MvcCadeteria.Repositorio
             return num_eliminado>0;
         }
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        // public int ultimoIdPersona()
-        // {
-        //     int IdBuscado;
-        //     string CadenaDeConsulta = "SELECT MAX(id_cadete) FROM cadetes";
-        //     using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
-        //     {
-        //         SQLiteCommand command = new SQLiteCommand(CadenaDeConsulta,connexion);
-        //         connexion.Open();
-        //         IdBuscado=Convert.ToInt32(command.ExecuteScalar());
-        //         connexion.Close();
-        //     }
-        //     return IdBuscado;
-        // }
+        public List<Cadete> GetCdtsCantPd2s()
+        {
+            List<Cadete> lista = new List<Cadete>();
+            string CadenaDeConsulta = "SELECT id_cadete, nombre, telefono, COUNT(id_pedido) AS cantidad FROM cadetes LEFT JOIN (sELECT id_cadete, id_pedido, estado FROM pedidos WHERE estado=2) USING(id_cadete) GROUP BY (id_cadete) ORDER BY cantidad DESC";
+            using(SQLiteConnection connexion = new SQLiteConnection(CadenaDeConexionPedidosDB))
+            {
+                SQLiteCommand command = new SQLiteCommand(CadenaDeConsulta,connexion);
+                connexion.Open();
+                using(SQLiteDataReader reader = command.ExecuteReader()){
+                    while(reader.Read()){
+                        //Cadete nuevo = new Cadete(reader.GetInt32(0),reader.GetString(1),reader.GetString(2),reader.GetString(3),reader.GetInt32(4));
+                        Cadete nuevo = new Cadete{cdt_id=reader.GetInt32(0),cdt_nombre=reader.GetString(1),cdt_telefono=reader.GetString(2),cdt_cant_pd2=reader.GetInt32(3)};
+                        lista.Add(nuevo);
+                    }
+                }
+                connexion.Close();
+            }
+            return lista;
+        }
     }
 }

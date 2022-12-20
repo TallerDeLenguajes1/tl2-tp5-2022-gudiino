@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using MvcCadeteria.Models;
 using MvcCadeteria.Repositorio;
 using AutoMapper;
-//using Microsoft.AspNetCore.Session;//paquete 1  para usar sesiones
-//using Microsoft.AspNetCore.Http;// paquete 2 para usar sesiones
+using Microsoft.AspNetCore.Session;//paquete 1  para usar sesiones
+using Microsoft.AspNetCore.Http;// paquete 2 para usar sesiones
 using Microsoft.AspNetCore.Authorization;
 using MvcCadeteria.ViewsModels;
 
 namespace MvcCadeteria.Controllers;
 
-//[Authorize]
-[Authorize(Roles = "Administrador")]
+//[Authorize(Roles = "Administrador")]
+[Authorize(Policy = "ADMIN")]
 public class CadetesController : Controller
 {
     private readonly IMapper _mappeo;

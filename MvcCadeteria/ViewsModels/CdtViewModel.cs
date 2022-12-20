@@ -11,5 +11,5 @@ public class CdtViewModel
 
     public string? telefono { get; set; }
 
-    public List<Pedido> lista_pd2 {get; set;}
+    public int cantidadPd2 { get; set; }
 }
